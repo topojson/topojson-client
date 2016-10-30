@@ -54,7 +54,7 @@ Returns the GeoJSON MultiPolygon geometry object representing the union for the 
 
 Equivalent to [topojson.merge](#merge), but returns TopoJSON rather than GeoJSON.
 
-<a name="mesh" href="#mesh">#</a> topojson.<b>mesh</b>(<i>topology</i>, [<i>object</i>, [<i>filter</i>]]) [<>](https://github.com/topojson/topojson-client/blob/master/src/mesh.js#L4 "Source")
+<a name="mesh" href="#mesh">#</a> topojson.<b>mesh</b>(<i>topology</i>[, <i>object</i>[, <i>filter</i>]]) [<>](https://github.com/topojson/topojson-client/blob/master/src/mesh.js#L4 "Source")
 
 Returns the GeoJSON MultiLineString geometry object representing the mesh for the specified *object* in the given *topology*. This is useful for rendering strokes in complicated objects efficiently, as edges that are shared by multiple features are only stroked once.
 
