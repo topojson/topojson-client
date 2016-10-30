@@ -1,6 +1,6 @@
 {
   "name": "topojson-client",
-  "version": "1.6.27",
+  "version": "1.7.0",
   "description": "Manipulate TopoJSON and convert it to GeoJSON.",
   "keywords": [
     "topojson",
