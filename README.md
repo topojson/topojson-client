@@ -123,10 +123,15 @@ Specify the input TopoJSON file name. Defaults to “-” for stdin.
 <a name="topojson-geojson_list" href="#topojson-geojson_list">#</a> topojson-geojson <b>-l</b>
 <br><a href="#topojson-geojson_list">#</a> topojson-geojson <b>--list</b>
 
-List the names of the objects in the input topology, and then exit. For example:
+List the names of the objects in the input topology, and then exit. For example, this:
 
 ```
-$ topojson-geojson -l < us-10m.json
+topojson-geojson -l < us-10m.json
+```
+
+Will output this:
+
+```
 counties
 states
 land
