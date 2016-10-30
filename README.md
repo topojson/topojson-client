@@ -32,7 +32,7 @@ import * as topojson from "topojson";
 
 # API Reference
 
-<a name="feature" href="#feature">#</a> topojson.<b>feature</b>(<i>topology</i>, <i>object</i>) [<>](https://github.com/topojson/topojson-client/blob/master/feature.js "Source")
+<a name="feature" href="#feature">#</a> topojson.<b>feature</b>(<i>topology</i>, <i>object</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/feature.js "Source")
 
 Returns the GeoJSON Feature or FeatureCollection for the specified *object* in the given *topology*. If the specified object is a GeometryCollection, a FeatureCollection is returned, and each geometry in the collection is mapped to a Feature. Otherwise, a Feature is returned.
 
@@ -46,15 +46,15 @@ Some examples:
 
 See [feature-test.js](https://github.com/topojson/topojson-client/blob/master/test/feature-test.js) for more examples.
 
-<a name="merge" href="#merge">#</a> topojson.<b>merge</b>(<i>topology</i>, <i>objects</i>) [<>](https://github.com/topojson/topojson-client/blob/master/merge.js#L5 "Source")
+<a name="merge" href="#merge">#</a> topojson.<b>merge</b>(<i>topology</i>, <i>objects</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/merge.js#L5 "Source")
 
 Returns the GeoJSON MultiPolygon geometry object representing the union for the specified array of Polygon and MultiPolygon *objects* in the given *topology*. Interior borders shared by adjacent polygons are removed. See [Merging States](https://bl.ocks.org/mbostock/5416405) for an example.
 
-<a name="mergeArcs" href="#mergeArcs">#</a> topojson.<b>mergeArcs</b>(<i>topology</i>, <i>objects</i>) [<>](https://github.com/topojson/topojson-client/blob/master/merge.js#L9 "Source")
+<a name="mergeArcs" href="#mergeArcs">#</a> topojson.<b>mergeArcs</b>(<i>topology</i>, <i>objects</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/merge.js#L9 "Source")
 
 Equivalent to [topojson.merge](#merge), but returns a TopoJSON MultiPolygon object rather than GeoJSON.
 
-<a name="mesh" href="#mesh">#</a> topojson.<b>mesh</b>(<i>topology</i>, <i>object</i>, [<i>filter</i>]) [<>](https://github.com/topojson/topojson-client/blob/master/mesh.js#L4 "Source")
+<a name="mesh" href="#mesh">#</a> topojson.<b>mesh</b>(<i>topology</i>, <i>object</i>, [<i>filter</i>]) [<>](https://github.com/topojson/topojson-client/blob/master/src/mesh.js#L4 "Source")
 
 Returns the GeoJSON MultiLineString geometry object representing the mesh for the specified *object* in the given *topology*. This is useful for rendering strokes in complicated objects efficiently, as edges that are shared by multiple features are only stroked once.
 
@@ -66,16 +66,16 @@ var interiors = topojson.mesh(topology, object, function(a, b) { return a !== b;
 
 See this [county choropleth](https://bl.ocks.org/mbostock/4060606) for example. Note: the *a* and *b* objects are TopoJSON objects (pulled directly from the topology), and not automatically converted to GeoJSON features as by [topojson.feature](#feature).
 
-<a name="meshArcs" href="#meshArcs">#</a> topojson.<b>meshArcs</b>(<i>topology</i>[, <i>objects</i>[, <i>filter</i>]]) [<>](https://github.com/topojson/topojson-client/blob/master/mesh.js#L8 "Source")
+<a name="meshArcs" href="#meshArcs">#</a> topojson.<b>meshArcs</b>(<i>topology</i>[, <i>objects</i>[, <i>filter</i>]]) [<>](https://github.com/topojson/topojson-client/blob/master/src/mesh.js#L8 "Source")
 
 Equivalent to [topojson.mesh](#mesh), but returns a TopoJSON MultiLineString object rather than GeoJSON.
 
-<a name="neighbors" href="#neighbors">#</a> topojson.<b>neighbors</b>(<i>objects</i>) [<>](https://github.com/topojson/topojson-client/blob/master/neighbors.js "Source")
+<a name="neighbors" href="#neighbors">#</a> topojson.<b>neighbors</b>(<i>objects</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/neighbors.js "Source")
 
 Returns an array representing the set of neighboring objects for each object in the specified *objects* array. The returned array has the same number of elements as the input array; each element *i* in the returned array is the array of indexes for neighbors of object *i* in the input array. For example, if the specified objects array contains the features *foo* and *bar*, and these features are neighbors, the returned array will be \[\[1\], \[0\]\], indicating that *foo* is a neighbor of *bar* and *vice versa*. Each array of neighbor indexes for each object is guaranteed to be sorted in ascending order.
 
 For a practical example, see the [world map](https://bl.ocks.org/mbostock/4180634) with topological coloring.
 
-<a name="presimplify" href="#presimplify">#</a> topojson.<b>presimplify</b>(<i>topojson</i>[, <i>triangleArea</i>]) [<>](https://github.com/topojson/topojson-client/blob/master/presimplify.js "Source")
+<a name="presimplify" href="#presimplify">#</a> topojson.<b>presimplify</b>(<i>topojson</i>[, <i>triangleArea</i>]) [<>](https://github.com/topojson/topojson-client/blob/master/src/presimplify.js "Source")
 
 … See the [dynamic simplification](https://bl.ocks.org/mbostock/6245977) example.
