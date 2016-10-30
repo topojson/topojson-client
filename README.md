@@ -84,7 +84,7 @@ For a practical example, see the [world map](https://bl.ocks.org/mbostock/418063
 
 ## Command Line Reference
 
-<a name="topojson-geojson" href="#topojson-geojson">#</a> <b>topojson-geojson</b> [<i>options…</i>] &lt;name=file&gt;…
+<a name="topojson-geojson" href="#topojson-geojson">#</a> <b>topojson-geojson</b> [<i>options…</i>] &lt;name=file&gt;… [<>](https://github.com/topojson/topojson-client/blob/master/bin/topojson-geojson "Source")
 
 Converts one or more TopoJSON objects from an input topology to one or more GeoJSON features. For example, to convert the “states” TopoJSON GeometryCollection object in us-10m.json to a GeoJSON feature collection in us-states-10m.json:
 
