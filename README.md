@@ -81,3 +81,53 @@ For a practical example, see the [world map](https://bl.ocks.org/mbostock/418063
 <a name="presimplify" href="#presimplify">#</a> topojson.<b>presimplify</b>(<i>topojson</i>[, <i>triangleArea</i>]) [<>](https://github.com/topojson/topojson-client/blob/master/src/presimplify.js "Source")
 
 … See the [dynamic simplification](https://bl.ocks.org/mbostock/6245977) example.
+
+## Command Line Reference
+
+<a name="topojson-geojson" href="#topojson-geojson">#</a> <b>topojson-geojson</b> [<i>options…</i>] &lt;name=file&gt;…
+
+Converts the TopoJSON on stdin to one or more GeoJSON files. For example, to convert the “states” TopoJSON GeometryCollection object in us-10m.json to a GeoJSON feature collection in us-states-10m.json:
+
+```
+topojson-geojson states=us-states-10m.json < us-10m.json
+```
+
+For convenience, you can omit the file name, and specify only the object name. In this case, the output file will be *name*.json. For example, to output to states.json:
+
+```
+topojson-geojson states < us-10m.json
+```
+
+To list the available object names, use [--list](#topojson-geojson_list).
+
+<a name="topojson-geojson_help" href="#topojson-geojson_help">#</a> topojson-geojson <b>-h</b>
+<br><a href="#topojson-geojson_help">#</a> topojson-geojson <b>--help</b>
+
+Output usage information.
+
+<a name="topojson-geojson_version" href="#topojson-geojson_version">#</a> topojson-geojson <b>-V</b>
+<br><a href="#topojson-geojson_version">#</a> topojson-geojson <b>--version</b>
+
+Output the version number.
+
+<a name="topojson-geojson_newline_delimited" href="#topojson-geojson_newline_delimited">#</a> topojson-geojson <b>-n</b>
+<br><a href="#topojson-geojson_newline_delimited">#</a> topojson-geojson <b>--newline-delimited</b>
+
+Output [newline-delimited JSON](http://ndjson.org/), with one feature per line.
+
+<a name="topojson-geojson_in" href="#topojson-geojson_in">#</a> topojson-geojson <b>-i</b> <i>file</i>
+<br><a href="#topojson-geojson_in">#</a> topojson-geojson <b>--in</b> <i>file</i>
+
+Specify the input TopoJSON file name. Defaults to “-” for stdin.
+
+<a name="topojson-geojson_list" href="#topojson-geojson_list">#</a> topojson-geojson <b>-l</b>
+<br><a href="#topojson-geojson_list">#</a> topojson-geojson <b>--list</b>
+
+List the names of the objects in the input topology, and then exit. For example:
+
+```
+$ topojson-geojson -l < us-10m.json
+counties
+states
+land
+```
