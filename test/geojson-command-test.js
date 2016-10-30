@@ -40,7 +40,7 @@ testConversion(
 function testConversion(testName, objectName, expectedName, topologyName) {
   var actualName = path.join(os.tmpdir(), tmpprefix + (++testId).toString(16) + ".json");
   tape(testName, function(test) {
-    child.exec("bin/topojson-geojson " + objectName + "=" + actualName + " < " + topologyName, function(error) {
+    child.exec("bin/topo2geo " + objectName + "=" + actualName + " < " + topologyName, function(error) {
       if (error) throw error;
       var actual = JSON.parse(fs.readFileSync(actualName), "utf-8");
       fs.unlinkSync(actualName);

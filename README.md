@@ -84,49 +84,49 @@ For a practical example, see the [world map](https://bl.ocks.org/mbostock/418063
 
 ## Command Line Reference
 
-<a name="topojson-geojson" href="#topojson-geojson">#</a> <b>topojson-geojson</b> [<i>options…</i>] &lt;name=file&gt;… [<>](https://github.com/topojson/topojson-client/blob/master/bin/topojson-geojson "Source")
+<a name="topo2geo" href="#topo2geo">#</a> <b>topo2geo</b> [<i>options…</i>] &lt;name=file&gt;… [<>](https://github.com/topojson/topojson-client/blob/master/bin/topo2geo "Source")
 
 Converts one or more TopoJSON objects from an input topology to one or more GeoJSON features. For example, to convert the “states” TopoJSON GeometryCollection object in us-10m.json to a GeoJSON feature collection in us-states-10m.json:
 
 ```
-topojson-geojson states=us-states-10m.json < us-10m.json
+topo2geo states=us-states-10m.json < us-10m.json
 ```
 
 For convenience, you can omit the file name and specify only the object *name*; the output file will be *name*.json. For example, to output to states.json:
 
 ```
-topojson-geojson states < us-10m.json
+topo2geo states < us-10m.json
 ```
 
-To list the available object names, use [--list](#topojson-geojson_list).
+To list the available object names, use [--list](#topo2geo_list).
 
-<a name="topojson-geojson_help" href="#topojson-geojson_help">#</a> topojson-geojson <b>-h</b>
-<br><a href="#topojson-geojson_help">#</a> topojson-geojson <b>--help</b>
+<a name="topo2geo_help" href="#topo2geo_help">#</a> topo2geo <b>-h</b>
+<br><a href="#topo2geo_help">#</a> topo2geo <b>--help</b>
 
 Output usage information.
 
-<a name="topojson-geojson_version" href="#topojson-geojson_version">#</a> topojson-geojson <b>-V</b>
-<br><a href="#topojson-geojson_version">#</a> topojson-geojson <b>--version</b>
+<a name="topo2geo_version" href="#topo2geo_version">#</a> topo2geo <b>-V</b>
+<br><a href="#topo2geo_version">#</a> topo2geo <b>--version</b>
 
 Output the version number.
 
-<a name="topojson-geojson_newline_delimited" href="#topojson-geojson_newline_delimited">#</a> topojson-geojson <b>-n</b>
-<br><a href="#topojson-geojson_newline_delimited">#</a> topojson-geojson <b>--newline-delimited</b>
+<a name="topo2geo_newline_delimited" href="#topo2geo_newline_delimited">#</a> topo2geo <b>-n</b>
+<br><a href="#topo2geo_newline_delimited">#</a> topo2geo <b>--newline-delimited</b>
 
 Output [newline-delimited JSON](http://ndjson.org/), with one feature per line.
 
-<a name="topojson-geojson_in" href="#topojson-geojson_in">#</a> topojson-geojson <b>-i</b> <i>file</i>
-<br><a href="#topojson-geojson_in">#</a> topojson-geojson <b>--in</b> <i>file</i>
+<a name="topo2geo_in" href="#topo2geo_in">#</a> topo2geo <b>-i</b> <i>file</i>
+<br><a href="#topo2geo_in">#</a> topo2geo <b>--in</b> <i>file</i>
 
 Specify the input TopoJSON file name. Defaults to “-” for stdin.
 
-<a name="topojson-geojson_list" href="#topojson-geojson_list">#</a> topojson-geojson <b>-l</b>
-<br><a href="#topojson-geojson_list">#</a> topojson-geojson <b>--list</b>
+<a name="topo2geo_list" href="#topo2geo_list">#</a> topo2geo <b>-l</b>
+<br><a href="#topo2geo_list">#</a> topo2geo <b>--list</b>
 
 List the names of the objects in the input topology, and then exit. For example, this:
 
 ```
-topojson-geojson -l < us-10m.json
+topo2geo -l < us-10m.json
 ```
 
 Will output this:
