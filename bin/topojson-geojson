@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+
+var fs = require("fs"),
+    path = require("path"),
+    commander = require("commander"),
+    topojson = require("../");
+
+commander
+    .version(require("../package.json").version)
+    .usage("[options]")
+    .description("Convert a TopoJSON file to GeoJSON.")
+    .option("-o, --out <dir>", "output directory name; defaults to “.” for cwd", ".")
+    .option("-n, --newline-delimited", "output newline-delimited JSON")
+    .parse(process.argv);
+
+if (commander.args.length < 1) commander.args[0] = "-";
+
+read(commander.args[0]).then(write);
+
+function read(file) {
+  return new Promise(function(resolve, reject) {
+    var chunks = [], stream = file === "-"
+        ? (process.stdin.setEncoding(commander.encoding), process.stdin)
+        : fs.createReadStream(file, {encoding: commander.encoding});
+    stream
+        .on("data", function(chunk) { chunks.push(chunk); })
+        .on("end", function() { resolve(JSON.parse(chunks.join(""))); })
+        .on("error", reject);
+  });
+}
+
+function write(topology) {
+  var write = Promise.resolve(), name;
+  for (name in topology.objects) {
+    write = write.then(writeFeature(name, topojson.feature(topology, topology.objects[name])));
+  }
+  return write;
+}
+
+function writeFeature(name, feature) {
+  return new Promise(function(resolve, reject) {
+    fs.writeFile(path.join(commander.out, name + ".json"), JSON.stringify(feature), function(error) {
+      if (error) reject(error);
+      else resolve();
+    });
+  });
+}

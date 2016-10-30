@@ -1,0 +1,40 @@
+{
+  "name": "topojson-client",
+  "version": "1.6.27",
+  "description": "Manipulate TopoJSON and convert it to GeoJSON.",
+  "keywords": [
+    "topojson",
+    "geojson"
+  ],
+  "homepage": "https://github.com/topojson/topojson-client",
+  "license": "BSD-3-Clause",
+  "author": {
+    "name": "Mike Bostock",
+    "url": "https://bost.ocks.org/mike"
+  },
+  "main": "dist/topojson.js",
+  "module": "index",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/topojson/topojson-client.git"
+  },
+  "bin": {
+    "topojson-geojson": "bin/topojson-geojson"
+  },
+  "scripts": {
+    "pretest": "rm -rf dist && mkdir dist && rollup --banner \"$(preamble)\" -f umd -n topojson -o dist/topojson.js -- index.js",
+    "test": "tape 'test/**/*-test.js' && eslint index.js src",
+    "prepublish": "npm run test && uglifyjs dist/topojson.js -c -m -o dist/topojson.min.js && uglifyjs dist/topojson-server.js -c -m -o dist/topojson-server.min.js",
+    "postpublish": "VERSION=`node -e 'console.log(require(\"./package.json\").version)'`; git push && git push --tags && cp -v README.md LICENSE.md dist/topojson.js dist/topojson.min.js ../topojson-bower && cd ../topojson-bower && git add README.md LICENSE.md topojson.js topojson.min.js && git commit -m \"Release $VERSION.\" && git tag -am \"Release $VERSION.\" v${VERSION} && git push && git push --tags && cd ../topojson && cp dist/topojson.js ../d3.github.com/topojson.v1.js && cp dist/topojson.min.js ../d3.github.com/topojson.v1.min.js && cd ../d3.github.com && git add topojson.v1.js topojson.v1.min.js && git commit -m \"topojson ${VERSION}\" && git push && cd - && zip -j dist/topojson.zip -- LICENSE.md README.md dist/topojson.js dist/topojson.min.js"
+  },
+  "dependencies": {
+    "commander": "2"
+  },
+  "devDependencies": {
+    "eslint": "3",
+    "package-preamble": "0.0",
+    "rollup": "0.36",
+    "tape": "4",
+    "uglify-js": "2"
+  }
+}
