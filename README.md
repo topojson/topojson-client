@@ -86,7 +86,7 @@ For a practical example, see the [world map](https://bl.ocks.org/mbostock/418063
 
 <a name="topojson-geojson" href="#topojson-geojson">#</a> <b>topojson-geojson</b> [<i>options…</i>] &lt;name=file&gt;…
 
-Converts one or more object from a TopoJSON topology to one or more GeoJSON features. For example, to convert the “states” TopoJSON GeometryCollection object in us-10m.json to a GeoJSON feature collection in us-states-10m.json:
+Converts one or more TopoJSON objects from an input topology to one or more GeoJSON features. For example, to convert the “states” TopoJSON GeometryCollection object in us-10m.json to a GeoJSON feature collection in us-states-10m.json:
 
 ```
 topojson-geojson states=us-states-10m.json < us-10m.json
