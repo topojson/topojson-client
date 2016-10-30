@@ -86,13 +86,13 @@ For a practical example, see the [world map](https://bl.ocks.org/mbostock/418063
 
 <a name="topojson-geojson" href="#topojson-geojson">#</a> <b>topojson-geojson</b> [<i>options…</i>] &lt;name=file&gt;…
 
-Converts the TopoJSON on stdin to one or more GeoJSON files. For example, to convert the “states” TopoJSON GeometryCollection object in us-10m.json to a GeoJSON feature collection in us-states-10m.json:
+Converts one or more object from a TopoJSON topology to one or more GeoJSON features. For example, to convert the “states” TopoJSON GeometryCollection object in us-10m.json to a GeoJSON feature collection in us-states-10m.json:
 
 ```
 topojson-geojson states=us-states-10m.json < us-10m.json
 ```
 
-For convenience, you can omit the file name, and specify only the object name. In this case, the output file will be *name*.json. For example, to output to states.json:
+For convenience, you can omit the file name and specify only the object *name*; the output file will be *name*.json. For example, to output to states.json:
 
 ```
 topojson-geojson states < us-10m.json
