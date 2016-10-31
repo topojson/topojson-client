@@ -14,7 +14,9 @@ commander
     .parse(process.argv);
 
 if (!commander.list === commander.args.length < 1) {
-  commander.outputHelp();
+  console.error();
+  console.error("  error: " + (commander.list ? "--list does not take arguments" : "no arguments specified"));
+  console.error();
   process.exit(1);
 }
 
