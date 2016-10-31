@@ -25,7 +25,7 @@ var feature = topojson.feature(topology, topology.objects.foo);
 The TopoJSON client API is implemented using ES2015 modules. In compatible environments, you can import the library as a namespace, like so:
 
 ```js
-import * as topojson from "topojson";
+import * as topojson from "topojson-client";
 ```
 
 [Try topojson-client in your browser.](https://tonicdev.com/npm/topojson-client)
