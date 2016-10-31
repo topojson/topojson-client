@@ -56,9 +56,7 @@ Equivalent to [topojson.merge](#merge), but returns TopoJSON rather than GeoJSON
 
 <a name="mesh" href="#mesh">#</a> topojson.<b>mesh</b>(<i>topology</i>[, <i>object</i>[, <i>filter</i>]]) [<>](https://github.com/topojson/topojson-client/blob/master/src/mesh.js#L4 "Source")
 
-Returns the GeoJSON MultiLineString geometry object representing the mesh for the specified *object* in the given *topology*. This is useful for rendering strokes in complicated objects efficiently, as edges that are shared by multiple features are only stroked once.
-
-If *object* is not specified, a mesh of the entire topology is returned.
+Returns the GeoJSON MultiLineString geometry object representing the mesh for the specified *object* in the given *topology*. This is useful for rendering strokes in complicated objects efficiently, as edges that are shared by multiple features are only stroked once. If *object* is not specified, a mesh of the entire topology is returned.
 
 An optional *filter* function may be specified to prune arcs from the returned mesh using the topology. The filter function is called once for each candidate arc and takes two arguments, *a* and *b*, two geometry objects that share that arc. Each arc is only included in the resulting mesh if the filter function returns true. For typical map topologies the geometries *a* and *b* are adjacent polygons and the candidate arc is their boundary. If an arc is only used by a single geometry then *a* and *b* are identical. This property is useful for separating interior and exterior boundaries; an easy way to produce a mesh of interior boundaries is:
 
