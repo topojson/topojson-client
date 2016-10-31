@@ -35,7 +35,7 @@ function extractArcs(topology, object, filter) {
   }
 
   function geometry(o) {
-    if (o != null) switch (geom = o, o.type) {
+    switch (geom = o, o.type) {
       case "GeometryCollection": o.geometries.forEach(geometry); break;
       case "LineString": extract1(o.arcs); break;
       case "MultiLineString": case "Polygon": extract2(o.arcs); break;

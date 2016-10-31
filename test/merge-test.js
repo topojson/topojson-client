@@ -7,7 +7,7 @@ tape("merge ignores null geometries", function(test) {
     "objects": {},
     "arcs": []
   };
-  test.deepEqual(topojson.merge(topology, [null]), {
+  test.deepEqual(topojson.merge(topology, [{type: null}]), {
     type: "MultiPolygon",
     coordinates: []
   });

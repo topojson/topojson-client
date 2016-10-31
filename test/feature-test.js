@@ -9,45 +9,45 @@ tape("feature the geometry type is preserved", function(test) {
 
 tape("feature Point is a valid geometry type", function(test) {
   var t = simpleTopology({type: "Point", coordinates: [0, 0]});
-  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", properties: {}, geometry: {type: "Point", coordinates: [0, 0]}});
+  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", id: undefined, properties: {}, geometry: {type: "Point", coordinates: [0, 0]}});
   test.end();
 });
 
 tape("feature MultiPoint is a valid geometry type", function(test) {
   var t = simpleTopology({type: "MultiPoint", coordinates: [[0, 0]]});
-  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", properties: {}, geometry: {type: "MultiPoint", coordinates: [[0, 0]]}});
+  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", id: undefined, properties: {}, geometry: {type: "MultiPoint", coordinates: [[0, 0]]}});
   test.end();
 });
 
 tape("feature LineString is a valid geometry type", function(test) {
   var t = simpleTopology({type: "LineString", arcs: [0]});
-  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", properties: {}, geometry: {type: "LineString", coordinates: [[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]}});
+  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", id: undefined, properties: {}, geometry: {type: "LineString", coordinates: [[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]}});
   test.end();
 });
 
 tape("feature MultiLineString is a valid geometry type", function(test) {
   var t = simpleTopology({type: "LineString", arcs: [0]});
-  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", properties: {}, geometry: {type: "LineString", coordinates: [[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]}});
+  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", id: undefined, properties: {}, geometry: {type: "LineString", coordinates: [[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]}});
   test.end();
 });
 
 tape("feature line-strings have at least two coordinates", function(test) {
   var t = simpleTopology({type: "LineString", arcs: [3]});
-  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", properties: {}, geometry: {type: "LineString", coordinates: [[1, 1], [1, 1]]}});
+  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", id: undefined, properties: {}, geometry: {type: "LineString", coordinates: [[1, 1], [1, 1]]}});
   var t = simpleTopology({type: "MultiLineString", arcs: [[3], [4]]});
-  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", properties: {}, geometry: {type: "MultiLineString", coordinates: [[[1, 1], [1, 1]], [[0, 0], [0, 0]]]}});
+  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", id: undefined, properties: {}, geometry: {type: "MultiLineString", coordinates: [[[1, 1], [1, 1]], [[0, 0], [0, 0]]]}});
   test.end();
 });
 
 tape("feature Polygon is a valid feature type", function(test) {
   var t = simpleTopology({type: "Polygon", arcs: [[0]]});
-  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", properties: {}, geometry: {type: "Polygon", coordinates: [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]]}});
+  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", id: undefined, properties: {}, geometry: {type: "Polygon", coordinates: [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]]}});
   test.end();
 });
 
 tape("feature MultiPolygon is a valid feature type", function(test) {
   var t = simpleTopology({type: "MultiPolygon", arcs: [[[0]]]});
-  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", properties: {}, geometry: {type: "MultiPolygon", coordinates: [[[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]]]}});
+  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", id: undefined, properties: {}, geometry: {type: "MultiPolygon", coordinates: [[[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]]]}});
   test.end();
 });
 
@@ -65,13 +65,13 @@ tape("feature polygons are closed, with at least four coordinates", function(tes
 
 tape("feature top-level geometry collections are mapped to feature collections", function(test) {
   var t = simpleTopology({type: "GeometryCollection", geometries: [{type: "MultiPolygon", arcs: [[[0]]]}]});
-  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "FeatureCollection", features: [{type: "Feature", properties: {}, geometry: {type: "MultiPolygon", coordinates: [[[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]]]}}]});
+  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "FeatureCollection", features: [{type: "Feature", id: undefined, properties: {}, geometry: {type: "MultiPolygon", coordinates: [[[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]]]}}]});
   test.end();
 });
 
 tape("feature geometry collections can be nested", function(test) {
   var t = simpleTopology({type: "GeometryCollection", geometries: [{type: "GeometryCollection", geometries: [{type: "Point", coordinates: [0, 0]}]}]});
-  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "FeatureCollection", features: [{type: "Feature", properties: {}, geometry: {type: "GeometryCollection", geometries: [{type: "Point", coordinates: [0, 0]}]}}]});
+  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "FeatureCollection", features: [{type: "Feature", id: undefined, properties: {}, geometry: {type: "GeometryCollection", geometries: [{type: "Point", coordinates: [0, 0]}]}}]});
   test.end();
 });
 
@@ -83,7 +83,7 @@ tape("feature top-level geometry collections do not have ids, but second-level g
 
 tape("feature top-level geometry collections do not have properties, but second-level geometry collections can", function(test) {
   var t = simpleTopology({type: "GeometryCollection", properties: {collection: true}, geometries: [{type: "GeometryCollection", properties: {feature: true}, geometries: [{type: "Point", properties: {geometry: true}, coordinates: [0, 0]}]}]});
-  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "FeatureCollection", features: [{type: "Feature", properties: {feature: true}, geometry: {type: "GeometryCollection", geometries: [{type: "Point", coordinates: [0, 0]}]}}]});
+  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "FeatureCollection", features: [{type: "Feature", id: undefined, properties: {feature: true}, geometry: {type: "GeometryCollection", geometries: [{type: "Point", coordinates: [0, 0]}]}}]});
   test.end();
 });
 
@@ -143,7 +143,7 @@ tape("feature unknown geometry types are converted to null geometries", function
     arcs: []
   };
   test.deepEqual(topojson.feature(topology, topology.objects.foo), {type: "Feature", id: "foo", properties: {}, geometry: null});
-  test.deepEqual(topojson.feature(topology, topology.objects.bar), {type: "Feature", properties: {bar: 2}, geometry: null});
+  test.deepEqual(topojson.feature(topology, topology.objects.bar), {type: "Feature", id: undefined, properties: {bar: 2}, geometry: null});
   test.deepEqual(topojson.feature(topology, topology.objects.baz), {type: "FeatureCollection", features: [{type: "Feature", id: "unknown", properties: {}, geometry: null}]});
   test.end();
 });

@@ -2,21 +2,18 @@ import reverse from "./reverse";
 import transform from "./transform";
 
 export default function(topology, o) {
-  return o.type === "GeometryCollection" ? {
-    type: "FeatureCollection",
-    features: o.geometries.map(function(o) { return feature(topology, o); })
-  } : feature(topology, o);
+  return o.type === "GeometryCollection"
+      ? {type: "FeatureCollection", features: o.geometries.map(function(o) { return feature(topology, o); })}
+      : feature(topology, o);
 }
 
 export function feature(topology, o) {
-  var f = {
+  return {
     type: "Feature",
-    id: o.id,
-    properties: o.properties || {},
+    id: o.id == null ? undefined : o.id,
+    properties: o.properties == null ? {} : o.properties,
     geometry: object(topology, o)
   };
-  if (o.id == null) delete f.id;
-  return f;
 }
 
 export function object(topology, o) {
@@ -53,20 +50,19 @@ export function object(topology, o) {
   }
 
   function geometry(o) {
-    var t = o.type;
-    return t === "GeometryCollection" ? {type: t, geometries: o.geometries.map(geometry)}
-        : t in geometryType ? {type: t, coordinates: geometryType[t](o)}
-        : null;
+    var type = o.type, coordinates;
+    switch (type) {
+      case "GeometryCollection": return {type: type, geometries: o.geometries.map(geometry)};
+      case "Point": coordinates = point(o.coordinates); break;
+      case "MultiPoint": coordinates = o.coordinates.map(point); break;
+      case "LineString": coordinates = line(o.arcs); break;
+      case "MultiLineString": coordinates = o.arcs.map(line); break;
+      case "Polygon": coordinates = polygon(o.arcs); break;
+      case "MultiPolygon": coordinates = o.arcs.map(polygon); break;
+      default: return null;
+    }
+    return {type: type, coordinates: coordinates};
   }
-
-  var geometryType = {
-    Point: function(o) { return point(o.coordinates); },
-    MultiPoint: function(o) { return o.coordinates.map(point); },
-    LineString: function(o) { return line(o.arcs); },
-    MultiLineString: function(o) { return o.arcs.map(line); },
-    Polygon: function(o) { return polygon(o.arcs); },
-    MultiPolygon: function(o) { return o.arcs.map(polygon); }
-  };
 
   return geometry(o);
 }

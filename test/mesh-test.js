@@ -9,7 +9,7 @@ tape("mesh ignores null geometries", function(test) {
     "objects": {},
     "arcs": []
   };
-  test.deepEqual(topojson.mesh(topology, null), {
+  test.deepEqual(topojson.mesh(topology, {type: null}), {
     type: "MultiLineString",
     coordinates: []
   });

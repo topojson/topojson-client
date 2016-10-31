@@ -14,7 +14,7 @@ export function mergeArcs(topology, objects) {
   objects.forEach(geometry);
 
   function geometry(o) {
-    if (o != null) switch (o.type) {
+    switch (o.type) {
       case "GeometryCollection": o.geometries.forEach(geometry); break;
       case "Polygon": extract(o.arcs); break;
       case "MultiPolygon": o.arcs.forEach(extract); break;
