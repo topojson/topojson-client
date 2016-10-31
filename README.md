@@ -80,7 +80,7 @@ For a practical example, see the [world map](https://bl.ocks.org/mbostock/418063
 
 <a name="_transform" href="#_transform">#</a> <i>transform</i>(<i>point</i>[, <i>index</i>])
 
-Transforms the specified *point* in-place. If the specified *index* is truthy, the input *point* is treated as relative to the previous point passed to the transform, as is the case with delta-encoded arcs. Returns the specified *point*.
+Transforms the specified *point* **in-place**, modifying the *point*’s coordinates. If the specified *index* is truthy, the input *point* is treated as relative to the previous point passed to the transform, as is the case with delta-encoded arcs. Returns the specified *point*.
 
 <a name="transform" href="#transform">#</a> topojson.<b>transform</b>(<i>topology</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/transform.js "Source")
 
