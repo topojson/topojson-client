@@ -1,5 +1,5 @@
 import {object} from "./feature";
-import stitchArcs from "./stitchArcs";
+import stitch from "./stitch";
 
 export default function(topology) {
   return object(topology, meshArcs.apply(this, arguments));
@@ -46,5 +46,5 @@ export function meshArcs(topology, o, filter) {
     for (var i = 0, n = topology.arcs.length; i < n; ++i) arcs.push(i);
   }
 
-  return {type: "MultiLineString", arcs: stitchArcs(topology, arcs)};
+  return {type: "MultiLineString", arcs: stitch(topology, arcs)};
 }

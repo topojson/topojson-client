@@ -11,10 +11,10 @@ Lastly, encoding topology has numerous useful applications for maps and visualiz
 
 ## Installing
 
-If you use NPM, `npm install topojson-client`. Otherwise, download the [latest release](https://github.com/topojson/topojson-client/releases/latest). You can also load directly from [d3js.org](https://d3js.org) as a [standalone library](https://d3js.org/topojson.v1.min.js). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `topojson` global is exported:
+If you use NPM, `npm install topojson-client`. Otherwise, download the [latest release](https://github.com/topojson/topojson-client/releases/latest). You can also load directly from [d3js.org](https://d3js.org) as a [standalone library](https://d3js.org/topojson.v2.min.js). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `topojson` global is exported:
 
 ```html
-<script src="https://d3js.org/topojson.v1.min.js"></script>
+<script src="https://d3js.org/topojson.v2.min.js"></script>
 <script>
 
 var feature = topojson.feature(topology, topology.objects.foo);
@@ -78,9 +78,19 @@ Returns an array representing the set of neighboring objects for each object in 
 
 For a practical example, see the [world map](https://bl.ocks.org/mbostock/4180634) with topological coloring.
 
-<a name="presimplify" href="#presimplify">#</a> topojson.<b>presimplify</b>(<i>topojson</i>[, <i>triangleArea</i>]) [<>](https://github.com/topojson/topojson-client/blob/master/src/presimplify.js "Source")
+### Transforms
 
-… See the [dynamic simplification](https://bl.ocks.org/mbostock/6245977) example.
+<a name="_transform" href="#_transform">#</a> <i>transform</i>(<i>point</i>[, <i>index</i>])
+
+Transforms the specified *point* in-place. If the specified *index* is truthy, the input *point* is treated as relative to the previous point passed to the transform, as is the case with delta-encoded arcs. Returns the specified *point*.
+
+<a name="absolute" href="#absolute">#</a> topojson.<b>absolute</b>([<i>transform</i>]) [<>](https://github.com/topojson/topojson-client/blob/master/src/absolute.js "Source")
+
+If the specified *transform* is non-null, returns a [*transform* function](#_transform) to remove delta-encoding and apply the transform. If a *transform* is not specified, returns the identity function.
+
+<a name="relative" href="#relative">#</a> topojson.<b>relative</b>([<i>transform</i>]) [<>](https://github.com/topojson/topojson-client/blob/master/src/relative.js "Source")
+
+If the specified *transform* is non-null, returns a [*transform* function](#_transform) to apply delta-encoding and remove the transform. If a *transform* is not specified, returns the identity function.
 
 ## Command Line Reference
 

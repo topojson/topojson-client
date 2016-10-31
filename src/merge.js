@@ -1,6 +1,6 @@
 import {object} from "./feature";
-import {ringArea as planarRingArea} from "./planar";
-import stitchArcs from "./stitchArcs";
+import ringArea from "./ringArea";
+import stitch from "./stitch";
 
 export default function(topology) {
   return object(topology, mergeArcs.apply(this, arguments));
@@ -26,7 +26,7 @@ export function mergeArcs(topology, objects) {
   }
 
   function area(ring) {
-    return Math.abs(planarRingArea(object(topology, {type: "Polygon", arcs: [ring]}).coordinates[0]));
+    return Math.abs(ringArea(object(topology, {type: "Polygon", arcs: [ring]}).coordinates[0]));
   }
 
   polygons.forEach(function(polygon) {
@@ -72,7 +72,7 @@ export function mergeArcs(topology, objects) {
       });
 
       // Stitch the arcs into one or more rings.
-      arcs = stitchArcs(topology, arcs);
+      arcs = stitch(topology, arcs);
 
       // If more than one ring is returned,
       // at most one of these rings can be the exterior;
