@@ -5,46 +5,49 @@ export default function(topology) {
   return object(topology, meshArcs.apply(this, arguments));
 }
 
-export function meshArcs(topology, o, filter) {
-  var arcs = [];
+export function meshArcs(topology, object, filter) {
+  var arcs, i, n;
+  if (arguments.length > 1) arcs = extractArcs(topology, object, filter);
+  else for (i = 0, arcs = new Array(n = topology.arcs.length); i < n; ++i) arcs[i] = i;
+  return {type: "MultiLineString", arcs: stitch(topology, arcs)};
+}
 
-  function arc(i) {
+function extractArcs(topology, object, filter) {
+  var arcs = [],
+      geomsByArc = [],
+      geom;
+
+  function extract0(i) {
     var j = i < 0 ? ~i : i;
     (geomsByArc[j] || (geomsByArc[j] = [])).push({i: i, g: geom});
   }
 
-  function line(arcs) {
-    arcs.forEach(arc);
+  function extract1(arcs) {
+    arcs.forEach(extract0);
   }
 
-  function polygon(arcs) {
-    arcs.forEach(line);
+  function extract2(arcs) {
+    arcs.forEach(extract1);
+  }
+
+  function extract3(arcs) {
+    arcs.forEach(extract2);
   }
 
   function geometry(o) {
-    if (o.type === "GeometryCollection") o.geometries.forEach(geometry);
-    else if (o.type in geometryType) geom = o, geometryType[o.type](o.arcs);
+    if (o != null) switch (geom = o, o.type) {
+      case "GeometryCollection": o.geometries.forEach(geometry); break;
+      case "LineString": extract1(o.arcs); break;
+      case "MultiLineString": case "Polygon": extract2(o.arcs); break;
+      case "MultiPolygon": extract3(o.arcs); break;
+    }
   }
 
-  if (arguments.length > 1) {
-    var geomsByArc = [],
-        geom;
+  geometry(object);
 
-    var geometryType = {
-      LineString: line,
-      MultiLineString: polygon,
-      Polygon: polygon,
-      MultiPolygon: function(arcs) { arcs.forEach(polygon); }
-    };
+  geomsByArc.forEach(filter == null
+      ? function(geoms) { arcs.push(geoms[0].i); }
+      : function(geoms) { if (filter(geoms[0].g, geoms[geoms.length - 1].g)) arcs.push(geoms[0].i); });
 
-    geometry(o);
-
-    geomsByArc.forEach(arguments.length < 3
-        ? function(geoms) { arcs.push(geoms[0].i); }
-        : function(geoms) { if (filter(geoms[0].g, geoms[geoms.length - 1].g)) arcs.push(geoms[0].i); });
-  } else {
-    for (var i = 0, n = topology.arcs.length; i < n; ++i) arcs.push(i);
-  }
-
-  return {type: "MultiLineString", arcs: stitch(topology, arcs)};
+  return arcs;
 }

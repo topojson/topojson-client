@@ -1,5 +1,5 @@
-import absolute from "./absolute";
 import reverse from "./reverse";
+import transform from "./transform";
 
 export default function(topology, o) {
   return o.type === "GeometryCollection" ? {
@@ -20,19 +20,19 @@ export function feature(topology, o) {
 }
 
 export function object(topology, o) {
-  var transform = absolute(topology.transform),
+  var transformPoint = transform(topology.transform),
       arcs = topology.arcs;
 
   function arc(i, points) {
     if (points.length) points.pop();
     for (var a = arcs[i < 0 ? ~i : i], k = 0, n = a.length; k < n; ++k) {
-      points.push(transform(a[k].slice(), k));
+      points.push(transformPoint(a[k].slice(), k));
     }
     if (i < 0) reverse(points, n);
   }
 
   function point(p) {
-    return transform(p.slice());
+    return transformPoint(p.slice());
   }
 
   function line(arcs) {

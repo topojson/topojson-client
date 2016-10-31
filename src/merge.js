@@ -9,14 +9,19 @@ export default function(topology) {
 export function mergeArcs(topology, objects) {
   var polygonsByArc = {},
       polygons = [],
-      components = [];
+      groups = [];
 
-  objects.forEach(function(o) {
-    if (o.type === "Polygon") register(o.arcs);
-    else if (o.type === "MultiPolygon") o.arcs.forEach(register);
-  });
+  objects.forEach(geometry);
 
-  function register(polygon) {
+  function geometry(o) {
+    if (o != null) switch (o.type) {
+      case "GeometryCollection": o.geometries.forEach(geometry); break;
+      case "Polygon": extract(o.arcs); break;
+      case "MultiPolygon": o.arcs.forEach(extract); break;
+    }
+  }
+
+  function extract(polygon) {
     polygon.forEach(function(ring) {
       ring.forEach(function(arc) {
         (polygonsByArc[arc = arc < 0 ? ~arc : arc] || (polygonsByArc[arc] = [])).push(polygon);
@@ -31,12 +36,12 @@ export function mergeArcs(topology, objects) {
 
   polygons.forEach(function(polygon) {
     if (!polygon._) {
-      var component = [],
+      var group = [],
           neighbors = [polygon];
       polygon._ = 1;
-      components.push(component);
+      groups.push(group);
       while (polygon = neighbors.pop()) {
-        component.push(polygon);
+        group.push(polygon);
         polygon.forEach(function(ring) {
           ring.forEach(function(arc) {
             polygonsByArc[arc < 0 ? ~arc : arc].forEach(function(polygon) {
@@ -57,7 +62,7 @@ export function mergeArcs(topology, objects) {
 
   return {
     type: "MultiPolygon",
-    arcs: components.map(function(polygons) {
+    arcs: groups.map(function(polygons) {
       var arcs = [], n;
 
       // Extract the exterior (unique) arcs.

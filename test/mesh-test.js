@@ -3,6 +3,19 @@ var tape = require("tape"),
 
 require("./inDelta");
 
+tape("mesh ignores null geometries", function(test) {
+  var topology = {
+    "type": "Topology",
+    "objects": {},
+    "arcs": []
+  };
+  test.deepEqual(topojson.mesh(topology, null), {
+    type: "MultiLineString",
+    coordinates: []
+  });
+  test.end();
+});
+
 tape("mesh stitches together two connected line strings", function(test) {
   var topology = {
     "type": "Topology",

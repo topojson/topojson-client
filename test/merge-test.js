@@ -1,6 +1,19 @@
 var tape = require("tape"),
     topojson = require("../");
 
+tape("merge ignores null geometries", function(test) {
+  var topology = {
+    "type": "Topology",
+    "objects": {},
+    "arcs": []
+  };
+  test.deepEqual(topojson.merge(topology, [null]), {
+    type: "MultiPolygon",
+    coordinates: []
+  });
+  test.end();
+});
+
 //
 // +----+----+            +----+----+
 // |    |    |            |         |
@@ -20,13 +33,45 @@ tape("merge stitches together two side-by-side polygons", function(test) {
         ]
       }
     },
-    "arcs":[
+    "arcs": [
       [[1, 1], [1, 0]],
       [[1, 0], [0, 0], [0, 1], [1, 1]],
       [[1, 1], [2, 1], [2, 0], [1, 0]]
     ]
   };
   test.deepEqual(topojson.merge(topology, topology.objects.collection.geometries), {
+    type: "MultiPolygon",
+    coordinates: [[[[1, 0], [0, 0], [0, 1], [1, 1], [2, 1], [2, 0], [1, 0]]]]
+  });
+  test.end();
+});
+
+//
+// +----+----+            +----+----+
+// |    |    |            |         |
+// |    |    |    ==>     |         |
+// |    |    |            |         |
+// +----+----+            +----+----+
+//
+tape("merge stitches together geometry collections", function(test) {
+  var topology = {
+    "type": "Topology",
+    "objects": {
+      "collection": {
+        "type": "GeometryCollection",
+        "geometries": [
+          {"type": "Polygon", "arcs": [[0, 1]]},
+          {"type": "Polygon", "arcs": [[-1, 2]]}
+        ]
+      }
+    },
+    "arcs": [
+      [[1, 1], [1, 0]],
+      [[1, 0], [0, 0], [0, 1], [1, 1]],
+      [[1, 1], [2, 1], [2, 0], [1, 0]]
+    ]
+  };
+  test.deepEqual(topojson.merge(topology, [topology.objects.collection]), {
     type: "MultiPolygon",
     coordinates: [[[[1, 0], [0, 0], [0, 1], [1, 1], [2, 1], [2, 0], [1, 0]]]]
   });
@@ -52,7 +97,7 @@ tape("merge does not stitch together two separated polygons", function(test) {
         ]
       }
     },
-    "arcs":[
+    "arcs": [
       [[0, 0], [0, 1], [1, 1], [1, 0], [0, 0]],
       [[2, 0], [2, 1], [3, 1], [3, 0], [2, 0]]
     ]
