@@ -20,7 +20,7 @@ export function feature(topology, o) {
 }
 
 export function object(topology, o) {
-  var transformPoint = transform(topology.transform),
+  var transformPoint = transform(topology),
       arcs = topology.arcs;
 
   function arc(i, points) {

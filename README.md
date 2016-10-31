@@ -82,13 +82,13 @@ For a practical example, see the [world map](https://bl.ocks.org/mbostock/418063
 
 Transforms the specified *point* in-place. If the specified *index* is truthy, the input *point* is treated as relative to the previous point passed to the transform, as is the case with delta-encoded arcs. Returns the specified *point*.
 
-<a name="transform" href="#transform">#</a> topojson.<b>transform</b>(<i>transform</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/transform.js "Source")
+<a name="transform" href="#transform">#</a> topojson.<b>transform</b>(<i>topology</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/transform.js "Source")
 
-If the specified [*topology*.transform object](https://github.com/topojson/topojson-specification/blob/master/README.md#212-transforms) is non-null, returns a [*transform* function](#_transform) to remove delta-encoding and apply the transform. If the *transform* object is null, returns the identity function.
+If the specified [*topology*.transform object](https://github.com/topojson/topojson-specification/blob/master/README.md#212-transforms) is non-null, returns a [*transform* function](#_transform) to remove delta-encoding and apply the transform. If the *topology*.transform object is null, returns the identity function.
 
-<a name="untransform" href="#untransform">#</a> topojson.<b>untransform</b>(<i>transform</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/untransform.js "Source")
+<a name="untransform" href="#untransform">#</a> topojson.<b>untransform</b>(<i>topology</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/untransform.js "Source")
 
-If the specified [*topology*.transform object](https://github.com/topojson/topojson-specification/blob/master/README.md#212-transforms) is non-null, returns a [*transform* function](#_transform) to apply delta-encoding and remove the transform. If the *transform* object is null, returns the identity function.
+If the specified [*topology*.transform object](https://github.com/topojson/topojson-specification/blob/master/README.md#212-transforms) is non-null, returns a [*transform* function](#_transform) to apply delta-encoding and remove the transform. If the *topology*.transform object is null, returns the identity function.
 
 ## Command Line Reference
 

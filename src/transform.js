@@ -1,8 +1,9 @@
 import identity from "./identity";
 
-export default function(transform) {
-  if (transform == null) return identity;
-  var x0,
+export default function(topology) {
+  if ((transform = topology.transform) == null) return identity;
+  var transform,
+      x0,
       y0,
       kx = transform.scale[0],
       ky = transform.scale[1],
