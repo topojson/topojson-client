@@ -4,6 +4,7 @@
   "description": "Manipulate TopoJSON and convert it to GeoJSON.",
   "keywords": [
     "topojson",
+    "topology",
     "geojson"
   ],
   "homepage": "https://github.com/topojson/topojson-client",
