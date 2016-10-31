@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var fs = require("fs"),
+    path = require("path"),
     commander = require("commander"),
     topojson = require("../");
 
@@ -47,8 +48,8 @@ function write(topology) {
   write = Promise.resolve();
   commander.args.forEach(function(specifier) {
     var i = specifier.indexOf("="),
-        file = i >= 0 ? specifier.slice(i + 1) : specifier + ".json",
-        name = i >= 0 ? specifier.slice(0, i) : specifier;
+        file = i >= 0 ? specifier.slice(i + 1) : specifier,
+        name = i >= 0 ? specifier.slice(0, i) : path.basename(specifier, path.extname(specifier));
     if (!(name in topology.objects)) {
       console.error("error: object “" + name + "” not found");
       process.exit(1);

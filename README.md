@@ -100,10 +100,10 @@ Converts one or more TopoJSON objects from an input topology to one or more GeoJ
 topo2geo states=us-states-10m.json < us-10m.json
 ```
 
-For convenience, you can omit the file name and specify only the object *name*; the output file will be *name*.json. For example, to output to states.json:
+For convenience, you can omit the object name and specify only the file *name*; the object name will be the basename of the file, with the directory and extension removed. For example, to convert the “states” TopoJSON GeometryCollection object in us-10m.json to a GeoJSON feature collection in states.json:
 
 ```
-topo2geo states < us-10m.json
+topo2geo states.json < us-10m.json
 ```
 
 To list the available object names, use [--list](#topo2geo_list).
