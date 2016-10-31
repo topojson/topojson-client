@@ -1,6 +1,11 @@
 import {object} from "./feature";
-import ringArea from "./ringArea";
 import stitch from "./stitch";
+
+function planarRingArea(ring) {
+  var i = -1, n = ring.length, a, b = ring[n - 1], area = 0;
+  while (++i < n) a = b, b = ring[i], area += a[0] * b[1] - a[1] * b[0];
+  return Math.abs(area); // Note: doubled area!
+}
 
 export default function(topology) {
   return object(topology, mergeArcs.apply(this, arguments));
@@ -31,7 +36,7 @@ export function mergeArcs(topology, objects) {
   }
 
   function area(ring) {
-    return Math.abs(ringArea(object(topology, {type: "Polygon", arcs: [ring]}).coordinates[0]));
+    return planarRingArea(object(topology, {type: "Polygon", arcs: [ring]}).coordinates[0]);
   }
 
   polygons.forEach(function(polygon) {
