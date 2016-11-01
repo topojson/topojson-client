@@ -12,7 +12,9 @@ commander
     .description("Merges the source TopoJSON geometry collection, assigning to the target.")
     .option("-i, --in <file>", "input topology file name; defaults to “-” for stdin", "-")
     .option("-o, --out <file>", "output topology file name; defaults to “-” for stdout", "-")
-    .option("-k, --key <expression>", "which geometries to merge, given d and i", "d.id")
+    .option("-k, --key <expression>", "group geometries, given geometry d and index i")
+    .option("-f, --filter <expression>", "filter meshed lines, given adjacent geometries a and b")
+    .option("--mesh", "mesh lines instead of merging polygons")
     .parse(process.argv);
 
 if (commander.args.length !== 1) {
@@ -22,9 +24,17 @@ if (commander.args.length !== 1) {
   process.exit(1);
 }
 
-var sandbox = {d: undefined, i: -1},
-    context = new vm.createContext(sandbox),
-    key = new vm.Script("(" + commander.key + ")");
+var keySandbox = {d: undefined, i: -1},
+    keyContext = new vm.createContext(keySandbox),
+    key = new vm.Script("(" + commander.key + ")"),
+    keyFunction = function(d, i) { return keySandbox.d = d, keySandbox.i = i, key.runInContext(keyContext); };
+
+if (commander.mesh && commander.filter != null) {
+  var filterSandbox = {a: undefined, b: undefined},
+      filterContext = new vm.createContext(filterSandbox),
+      filter = new vm.Script("(" + commander.filter + ")"),
+      filterFunction = function(a, b) { return filterSandbox.a = a, filterSandbox.b = b, filter.runInContext(filterContext); };
+}
 
 read(commander.in).then(merge).then(write(commander.out)).catch(abort);
 
@@ -63,18 +73,27 @@ function merge(topology) {
   }
 
   source.geometries.forEach(function(geometry, i) {
-    sandbox.d = geometry, sandbox.i = i;
-    var k = stringify(key.runInContext(context)), v;
+    var k = stringify(keyFunction(geometry, i)), v;
     if (v = geometriesByKey[k]) v.push(geometry);
     else geometriesByKey[k] = v = [geometry];
   });
 
-  for (k in geometriesByKey) {
-    var v = geometriesByKey[k],
-        o = topojson.mergeArcs(topology, v); // TODO use meshArcs if lines
-    o.id = k.length > 1 ? k.slice(1) : undefined;
-    o.properties = properties(v);
-    geometries.push(o);
+  if (commander.mesh) {
+    for (k in geometriesByKey) {
+      var v = geometriesByKey[k],
+          o = topojson.meshArcs(topology, {type: "GeometryCollection", geometries: v}, filterFunction);
+      o.id = k.length > 1 ? k.slice(1) : undefined;
+      o.properties = properties(v);
+      geometries.push(o);
+    }
+  } else {
+    for (k in geometriesByKey) {
+      var v = geometriesByKey[k],
+          o = topojson.mergeArcs(topology, v);
+      o.id = k.length > 1 ? k.slice(1) : undefined;
+      o.properties = properties(v);
+      geometries.push(o);
+    }
   }
 
   return topology;
@@ -88,7 +107,6 @@ function properties(objects) {
   var properties = undefined, hasProperties;
 
   objects.forEach(function(object) {
-    if (!object) return;
     var newProperties = object.properties, key;
 
     // If no properties have yet been merged,
