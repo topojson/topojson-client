@@ -20,7 +20,8 @@
     "url": "https://github.com/topojson/topojson-client.git"
   },
   "bin": {
-    "topo2geo": "bin/topo2geo"
+    "topo2geo": "bin/topo2geo",
+    "topomerge": "bin/topomerge"
   },
   "scripts": {
     "pretest": "rm -rf dist && mkdir dist && rollup --banner \"$(preamble)\" -f umd -n topojson -o dist/topojson-client.js -- index.js",

@@ -1,0 +1,167 @@
+#!/usr/bin/env node
+
+var fs = require("fs"),
+    vm = require("vm"),
+    path = require("path"),
+    commander = require("commander"),
+    topojson = require("../");
+
+commander
+    .version(require("../package.json").version)
+    .usage("[options] <target=source>")
+    .description("Merges the source TopoJSON geometry collection, assigning to the target.")
+    .option("-i, --in <file>", "input topology file name; defaults to “-” for stdin", "-")
+    .option("-o, --out <file>", "output topology file name; defaults to “-” for stdout", "-")
+    .option("-k, --key <expression>", "which geometries to merge, given d and i", "d.id")
+    .parse(process.argv);
+
+if (commander.args.length !== 1) {
+  console.error();
+  console.error("  error: invalid or missing source and target names");
+  console.error();
+  process.exit(1);
+}
+
+var sandbox = {d: undefined, i: -1},
+    context = new vm.createContext(sandbox),
+    key = new vm.Script("(" + commander.key + ")");
+
+read(commander.in).then(merge).then(write(commander.out)).catch(abort);
+
+function read(file) {
+  return new Promise(function(resolve, reject) {
+    var data = [], stream = file === "-" ? process.stdin : fs.createReadStream(file);
+    stream
+        .on("data", function(d) { data.push(d); })
+        .on("end", function() { resolve(JSON.parse(Buffer.concat(data))); })
+        .on("error", reject);
+  });
+}
+
+function merge(topology) {
+  var name = commander.args[0], i = name.indexOf("="),
+      sourceName = i >= 0 ? name.slice(i + 1) : name,
+      targetName = i >= 0 ? name.slice(0, i) : name,
+      source = topology.objects[sourceName],
+      target = topology.objects[targetName] = {type: "GeometryCollection", geometries: []},
+      geometries = target.geometries,
+      geometriesByKey = {},
+      k;
+
+  if (!source) {
+    console.error();
+    console.error("  error: source object “" + name + "” not found");
+    console.error();
+    process.exit(1);
+  }
+
+  if (source.type !== "GeometryCollection") {
+    console.error();
+    console.error("  error: expected GeometryCollection, not " + source.type);
+    console.error();
+    process.exit(1);
+  }
+
+  source.geometries.forEach(function(geometry, i) {
+    sandbox.d = geometry, sandbox.i = i;
+    var k = stringify(key.runInContext(context)), v;
+    if (v = geometriesByKey[k]) v.push(geometry);
+    else geometriesByKey[k] = v = [geometry];
+  });
+
+  for (k in geometriesByKey) {
+    var v = geometriesByKey[k],
+        o = topojson.mergeArcs(topology, v); // TODO use meshArcs if lines
+    o.id = k.length > 1 ? k.slice(1) : undefined;
+    o.properties = properties(v);
+    geometries.push(o);
+  }
+
+  return topology;
+}
+
+function stringify(key) {
+  return key == null ? "$" : "$" + key;
+}
+
+function properties(objects) {
+  var properties = undefined, hasProperties;
+
+  objects.forEach(function(object) {
+    if (!object) return;
+    var newProperties = object.properties, key;
+
+    // If no properties have yet been merged,
+    // then we need to initialize the merged properties object.
+    if (properties === undefined) {
+
+      // If the first set of properties is null, undefined or empty,
+      // then the result of the merge will be the empty set.
+      // Otherwise, the new properties can copied into the merged object.
+      if (newProperties != null) for (key in newProperties) {
+        properties = {};
+        for (key in newProperties) properties[key] = newProperties[key];
+        return;
+      }
+
+      properties = null;
+      return;
+    }
+
+    // If any of the new properties are null or undefined,
+    // then the result of the merge will be the empty set.
+    if (newProperties == null) properties = null;
+    if (properties === null) return;
+
+    // Now mark as inconsistent any of the properties
+    // that differ from previously-merged values.
+    for (key in newProperties) {
+      if ((key in properties) && !is(properties[key], newProperties[key])) {
+        properties[key] = undefined;
+      }
+    }
+
+    // And mark as inconsistent any of the properties
+    // that are missing from this new set of merged values.
+    for (key in properties) {
+      if (!(key in newProperties)) {
+        properties[key] = undefined;
+      }
+    }
+
+    return object;
+  });
+
+  // Return undefined if there are no properties.
+  for (var key in properties) {
+    if (properties[key] !== undefined) {
+      return properties;
+    }
+  }
+};
+
+function write(file) {
+  var stream = (file === "-" ? process.stdout : fs.createWriteStream(file)).on("error", handleEpipe);
+  return function(topology) {
+    return new Promise(function(resolve, reject) {
+      stream.on("error", reject)[stream === process.stdout ? "write" : "end"](JSON.stringify(topology), function(error) {
+        if (error) reject(error);
+        else resolve();
+      });
+    });
+  };
+}
+
+function handleEpipe(error) {
+  if (error.code === "EPIPE" || error.errno === "EPIPE") {
+    process.exit(0);
+  }
+}
+
+function abort(error) {
+  console.error(error.stack);
+}
+
+function is(x, y) {
+  return x === y ? x !== 0 || 1 / x === 1 / y : x !== x && y !== y;
+}

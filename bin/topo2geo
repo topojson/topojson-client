@@ -51,7 +51,9 @@ function write(topology) {
         file = i >= 0 ? specifier.slice(i + 1) : specifier,
         name = i >= 0 ? specifier.slice(0, i) : path.basename(specifier, path.extname(specifier));
     if (!(name in topology.objects)) {
-      console.error("error: object “" + name + "” not found");
+      console.error();
+      console.error("  error: object “" + name + "” not found");
+      console.error();
       process.exit(1);
     }
     write = write.then(writer(file, topojson.feature(topology, topology.objects[name])));

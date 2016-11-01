@@ -139,3 +139,7 @@ counties
 states
 land
 ```
+
+<a name="topomerge" href="#topomerge">#</a> <b>topomerge</b> [<i>options…</i>] &lt;target=source&gt; [<>](https://github.com/topojson/topojson-client/blob/master/bin/topomerge "Source")
+
+…
