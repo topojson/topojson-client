@@ -21,7 +21,7 @@ if (!commander.list === commander.args.length < 1) {
   process.exit(1);
 }
 
-read(commander.in).then(write);
+read(commander.in).then(write).catch(abort);
 
 function read(file) {
   return new Promise(function(resolve, reject) {
@@ -60,15 +60,7 @@ function write(topology) {
 }
 
 function writeStream(file) {
-  var stream = file === "-" ? process.stdout : fs.createWriteStream(file);
-
-  stream.on("error", function(error) {
-    if (error.code === "EPIPE" || error.errno === "EPIPE") {
-      process.exit(0);
-    }
-  });
-
-  return stream;
+  return (file === "-" ? process.stdout : fs.createWriteStream(file)).on("error", handleEpipe);
 }
 
 function writeFeature(file, feature) {
@@ -99,4 +91,14 @@ function writeNewlineDelimitedFeature(file, feature) {
       resolve();
     }
   });
+}
+
+function handleEpipe(error) {
+  if (error.code === "EPIPE" || error.errno === "EPIPE") {
+    process.exit(0);
+  }
+}
+
+function abort(error) {
+  console.error(error.stack);
 }
