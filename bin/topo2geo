@@ -67,7 +67,7 @@ function writeStream(file) {
 
 function writeFeature(file, feature) {
   return new Promise(function(resolve, reject) {
-    writeStream(file).on("error", reject)[file === "-" ? "write" : "end"](JSON.stringify(feature), function(error) {
+    writeStream(file).on("error", reject)[file === "-" ? "write" : "end"](JSON.stringify(feature) + "\n", function(error) {
       if (error) reject(error);
       else resolve();
     });

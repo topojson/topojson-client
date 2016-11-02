@@ -21,7 +21,8 @@
   },
   "bin": {
     "topo2geo": "bin/topo2geo",
-    "topomerge": "bin/topomerge"
+    "topomerge": "bin/topomerge",
+    "topoquantize": "bin/topoquantize"
   },
   "scripts": {
     "pretest": "rm -rf dist && mkdir dist && rollup --banner \"$(preamble)\" -f umd -n topojson -o dist/topojson-client.js -- index.js",

@@ -187,7 +187,7 @@ function write(file) {
   var stream = (file === "-" ? process.stdout : fs.createWriteStream(file)).on("error", handleEpipe);
   return function(topology) {
     return new Promise(function(resolve, reject) {
-      stream.on("error", reject)[stream === process.stdout ? "write" : "end"](JSON.stringify(topology), function(error) {
+      stream.on("error", reject)[stream === process.stdout ? "write" : "end"](JSON.stringify(topology) + "\n", function(error) {
         if (error) reject(error);
         else resolve();
       });
