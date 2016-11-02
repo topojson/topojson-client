@@ -12,8 +12,8 @@ commander
     .description("Merges the source TopoJSON geometry collection, assigning to the target.")
     .option("-i, --in <file>", "input topology file name; defaults to “-” for stdin", "-")
     .option("-o, --out <file>", "output topology file name; defaults to “-” for stdout", "-")
-    .option("-k, --key <expression>", "group geometries, given geometry d and index i")
-    .option("-f, --filter <expression>", "filter meshed lines, given adjacent geometries a and b")
+    .option("-k, --key <expression>", "group geometries by key")
+    .option("-f, --filter <expression>", "filter merged geometries or meshed lines")
     .option("--mesh", "mesh lines instead of merging polygons")
     .parse(process.argv);
 
@@ -24,16 +24,41 @@ if (commander.args.length !== 1) {
   process.exit(1);
 }
 
-var keySandbox = {d: undefined, i: -1},
-    keyContext = new vm.createContext(keySandbox),
-    key = new vm.Script("(" + commander.key + ")"),
-    keyFunction = function(d, i) { return keySandbox.d = d, keySandbox.i = i, key.runInContext(keyContext); };
+var keyFunction = function() {},
+    postfilterFunction = function() { return true; },
+    prefilterFunction = function() { return true; };
 
-if (commander.mesh && commander.filter != null) {
-  var filterSandbox = {a: undefined, b: undefined},
-      filterContext = new vm.createContext(filterSandbox),
-      filter = new vm.Script("(" + commander.filter + ")"),
-      filterFunction = function(a, b) { return filterSandbox.a = a, filterSandbox.b = b, filter.runInContext(filterContext); };
+if (commander.key != null) {
+  var keySandbox = {d: undefined, i: -1},
+      keyContext = new vm.createContext(keySandbox),
+      keyScript = new vm.Script("(" + commander.key + ")");
+  keyFunction = function(d, i) {
+    keySandbox.d = d;
+    keySandbox.i = i;
+    return keyScript.runInContext(keyContext);
+  };
+}
+
+if (commander.filter != null) {
+  if (commander.mesh) {
+    var filterSandbox = {a: undefined, b: undefined},
+        filterContext = new vm.createContext(filterSandbox),
+        filterScript = new vm.Script("(" + commander.filter + ")");
+    postfilterFunction = function(a, b) {
+      filterSandbox.a = a;
+      filterSandbox.b = b;
+      return filterScript.runInContext(filterContext);
+    };
+  } else {
+    var filterSandbox = {d: undefined, i: -1},
+        filterContext = new vm.createContext(filterSandbox),
+        filterScript = new vm.Script("(" + commander.filter + ")");
+    prefilterFunction = function(d, i) {
+      filterSandbox.d = d;
+      filterSandbox.i = i;
+      return filterScript.runInContext(filterContext);
+    };
+  }
 }
 
 read(commander.in).then(merge).then(write(commander.out)).catch(abort);
@@ -73,6 +98,7 @@ function merge(topology) {
   }
 
   source.geometries.forEach(function(geometry, i) {
+    if (!prefilterFunction(geometry, i)) return;
     var k = stringify(keyFunction(geometry, i)), v;
     if (v = geometriesByKey[k]) v.push(geometry);
     else geometriesByKey[k] = v = [geometry];
@@ -81,7 +107,7 @@ function merge(topology) {
   if (commander.mesh) {
     for (k in geometriesByKey) {
       var v = geometriesByKey[k],
-          o = topojson.meshArcs(topology, {type: "GeometryCollection", geometries: v}, filterFunction);
+          o = topojson.meshArcs(topology, {type: "GeometryCollection", geometries: v}, postfilterFunction);
       o.id = k.length > 1 ? k.slice(1) : undefined;
       o.properties = properties(v);
       geometries.push(o);
