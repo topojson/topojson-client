@@ -73,6 +73,10 @@ For a practical example, see the [world map](https://bl.ocks.org/mbostock/418063
 
 ### Transforms
 
+<a name="quantize" href="#quantize">#</a> topojson.<b>quantize</b>(<i>topology</i>, <i>n</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/quantize.js "Source")
+
+…
+
 <a name="_transform" href="#_transform">#</a> <i>transform</i>(<i>point</i>[, <i>index</i>])
 
 Transforms the specified *point* **in-place**, modifying the *point*’s coordinates. If the specified *index* is truthy, the input *point* is treated as relative to the previous point passed to the transform, as is the case with delta-encoded arcs. Returns the specified *point*.
@@ -141,5 +145,9 @@ land
 ```
 
 <a name="topomerge" href="#topomerge">#</a> <b>topomerge</b> [<i>options…</i>] &lt;target=source&gt; [<>](https://github.com/topojson/topojson-client/blob/master/bin/topomerge "Source")
+
+…
+
+<a name="topoquantize" href="#topoquantize">#</a> <b>topoquantize</b> [<i>options…</i>] &lt;quantization&gt; [<>](https://github.com/topojson/topojson-client/blob/master/bin/topoquantize "Source")
 
 …
