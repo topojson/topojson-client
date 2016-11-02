@@ -73,6 +73,10 @@ For a practical example, see the [world map](https://bl.ocks.org/mbostock/418063
 
 ### Transforms
 
+<a name="bbox" href="#bbox">#</a> topojson.<b>bbox</b>(<i>topology</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/bbox.js "Source")
+
+…
+
 <a name="quantize" href="#quantize">#</a> topojson.<b>quantize</b>(<i>topology</i>, <i>n</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/quantize.js "Source")
 
 …

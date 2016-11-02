@@ -1,8 +1,11 @@
+import bbox from "./bbox";
+
 export default function(topology, n) {
+  if (!((n = Math.floor(n)) >= 2)) throw new Error("n must be ≥2");
   if (topology.transform) throw new Error("already quantized");
-  if (!(bb = topology.bbox)) throw new Error("missing bbox");
-  var bb, dx = bb[0], kx = (bb[2] - dx) / (n - 1) || 1,
-          dy = bb[1], ky = (bb[3] - dy) / (n - 1) || 1;
+  var bb = bbox(topology),
+      dx = bb[0], kx = (bb[2] - dx) / (n - 1) || 1,
+      dy = bb[1], ky = (bb[3] - dy) / (n - 1) || 1;
 
   topology.arcs.forEach(function(arc) {
     var i = 1,

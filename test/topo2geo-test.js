@@ -1,50 +1,42 @@
 var fs = require("fs"),
-    os = require("os"),
-    path = require("path"),
     child = require("child_process"),
     tape = require("tape");
 
-require("./inDelta");
-
-var tmpprefix = "geojson-command-test-" + process.pid + "-",
-    testId = Math.random() * 0xffff | 0;
-
-testConversion(
-  "Polygons",
-  "polygon",
-  "test/geojson/polygon-feature.json",
-  "test/topojson/polygon.json"
+testCommand(
+  "topo2geo polygon=- < test/topojson/polygon.json",
+  "test/geojson/polygon.json"
 );
 
-testConversion(
-  "Non-quantized Polygons",
-  "polygon",
-  "test/geojson/polygon-feature.json",
-  "test/topojson/polygon-no-quantization.json"
+testCommand(
+  "topo2geo polygon=- < test/topojson/polygon-q1e4.json",
+  "test/geojson/polygon.json"
 );
 
-testConversion(
-  "Projected polygons (clockwise)",
-  "clockwise",
-  "test/geojson/polygon-feature-mercator.json",
-  "test/topojson/polygon-mercator.json"
+testCommand(
+  "topo2geo polygon=- < test/topojson/polygon-q1e5.json",
+  "test/geojson/polygon.json"
 );
 
-testConversion(
-  "Projected polygons (counterclockwise)",
-  "counterclockwise",
-  "test/geojson/polygon-feature-mercator.json",
-  "test/topojson/polygon-mercator.json"
+testCommand(
+  "topo2geo polygon=- < test/topojson/polygon-mercator.json",
+  "test/geojson/polygon-mercator.json"
 );
 
-function testConversion(testName, objectName, expectedName, topologyName) {
-  var actualName = path.join(os.tmpdir(), tmpprefix + (++testId).toString(16) + ".json");
-  tape(testName, function(test) {
-    child.exec("bin/topo2geo " + objectName + "=" + actualName + " < " + topologyName, function(error) {
+testCommand(
+  "topo2geo polygon=- < test/topojson/polygon-mercator-q1e4.json",
+  "test/geojson/polygon-mercator.json"
+);
+
+testCommand(
+  "topo2geo polygon=- < test/topojson/polygon-mercator-q1e5.json",
+  "test/geojson/polygon-mercator.json"
+);
+
+function testCommand(command, expectedName) {
+  tape(command, function(test) {
+    child.exec("bin/" + command, function(error, stdout) {
       if (error) throw error;
-      var actual = JSON.parse(fs.readFileSync(actualName), "utf-8");
-      fs.unlinkSync(actualName);
-      test.inDelta(actual, JSON.parse(fs.readFileSync(expectedName, "utf-8")));
+      test.deepEqual(JSON.parse(stdout), JSON.parse(fs.readFileSync(expectedName)));
       test.end();
     });
   });
