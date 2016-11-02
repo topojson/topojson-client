@@ -1,0 +1,16 @@
+{
+  "type": "Topology",
+  "bbox": [0, 0, 10, 10],
+  "objects": {
+    "point": {
+      "type": "GeometryCollection",
+      "geometries": [
+        {"type": "Point", "coordinates": [0, 0]},
+        {"type": "Point", "coordinates": [0, 10]},
+        {"type": "Point", "coordinates": [10, 10]},
+        {"type": "Point", "coordinates": [10, 0]}
+      ]
+    }
+  },
+  "arcs": []
+}

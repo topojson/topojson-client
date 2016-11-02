@@ -1,0 +1,20 @@
+{
+  "type": "Topology",
+  "bbox": [0, 0, 10, 10],
+  "transform": {
+    "scale": [0.0001000010000100001, 0.0001000010000100001],
+    "translate": [0, 0]
+  },
+  "objects": {
+    "points": {
+      "type": "MultiPoint",
+      "coordinates": [
+        [0, 0],
+        [0, 99999],
+        [99999, 99999],
+        [99999, 0]
+      ]
+    }
+  },
+  "arcs": []
+}

@@ -22,6 +22,16 @@ testCommand(
   "test/topojson/polygon-mercator-q1e5.json"
 );
 
+testCommand(
+  "topoquantize 1e5 < test/topojson/point.json",
+  "test/topojson/point-q1e5.json"
+);
+
+testCommand(
+  "topoquantize 1e5 < test/topojson/points.json",
+  "test/topojson/points-q1e5.json"
+);
+
 function testCommand(command, expectedName) {
   tape(command, function(test) {
     child.exec("bin/" + command, function(error, stdout) {
