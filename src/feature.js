@@ -8,12 +8,13 @@ export default function(topology, o) {
 }
 
 export function feature(topology, o) {
-  return {
-    type: "Feature",
-    id: o.id == null ? undefined : o.id,
-    properties: o.properties == null ? {} : o.properties,
-    geometry: object(topology, o)
-  };
+  var id = o.id,
+      bbox = o.bbox,
+      properties = o.properties == null ? {} : o.properties,
+      geometry = object(topology, o);
+  return id == null && bbox == null ? {type: "Feature", properties: properties, geometry: geometry}
+      : bbox == null ? {type: "Feature", id: id, properties: properties, geometry: geometry}
+      : {type: "Feature", id: id, bbox: bbox, properties: properties, geometry: geometry};
 }
 
 export function object(topology, o) {
