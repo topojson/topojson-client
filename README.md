@@ -1,8 +1,29 @@
 # TopoJSON Client
 
-…
+The **topojson-client** module provides tools for manipulation TopoJSON, such as [merging shapes](#merge) and [quantizing coordinates](#quantize), and for converting back to [GeoJSON features](#feature) for rendering with standard tools such as [d3.geoPath](https://github.com/d3/d3-geo/blob/master/README.md#geoPath).
 
-See [topojson](https://github.com/topojson/topojson) for creating TopoJSON.
+In a browser (using d3-geo and Canvas), bl.ocks.org/3783604:
+
+<!DOCTYPE html>
+<canvas width="960" height="600"></canvas>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/topojson.v2.min.js"></script>
+<script>
+
+var context = d3.select("canvas").node().getContext("2d"),
+    path = d3.geoPath().context(context);
+
+d3.json("https://d3js.org/us-10m.v0.json", function(error, us) {
+  if (error) throw error;
+
+  context.beginPath();
+  path(topojson.mesh(us));
+  context.stroke();
+});
+
+</script>
+
+See [topojson](https://github.com/topojson/topojson) for converting GeoJSON to TopoJSON, [shapefile](https://github.com/mbostock/shapefile) for converting ESRI shapefiles to GeoJSON, [ndjson-cli](https://github.com/mbostock/ndjson-cli) for manipulating newline-delimited JSON streams, and [d3-geo-projection](https://github.com/d3/d3-geo-projection) for manipulating GeoJSON. See also [us-atlas](https://github.com/topojson/us-atlas) and [world-atlas](https://github.com/topojson/world-atlas) for pre-built TopoJSON.
 
 ## Installing
 
@@ -23,7 +44,7 @@ The TopoJSON client API is implemented using ES2015 modules. In compatible envir
 import * as topojson from "topojson-client";
 ```
 
-[Try topojson-client in your browser.](https://tonicdev.com/npm/topojson-client)
+[Try topojson-client in your browser.](https://runkit.com/npm/topojson-client)
 
 # API Reference
 
