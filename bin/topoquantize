@@ -6,20 +6,33 @@ var fs = require("fs"),
 
 commander
     .version(require("../package.json").version)
-    .usage("[options] <quantization>")
+    .usage("[options] <quantization> [file]")
     .description("Quantizes TopoJSON.")
-    .option("-i, --in <file>", "input topology file name; defaults to “-” for stdin", "-")
     .option("-o, --out <file>", "output topology file name; defaults to “-” for stdout", "-")
     .parse(process.argv);
 
-if (commander.args.length !== 1 || !+commander.args[0]) {
+if (commander.args.length < 1) {
   console.error();
-  console.error("  error: missing or invalid quantization");
+  console.error("  error: missing quantization");
+  console.error();
+  process.exit(1);
+} else if (commander.args.length > 2) {
+  console.error();
+  console.error("  error: multiple input files");
+  console.error();
+  process.exit(1);
+} else if (commander.args.length === 1) {
+  commander.args.push("-");
+}
+
+if (!(Math.floor(commander.args[0]) >= 2)) {
+  console.error();
+  console.error("  error: invalid quantization " + commander.args[0]);
   console.error();
   process.exit(1);
 }
 
-read(commander.in).then(quantize).then(write(commander.out)).catch(abort);
+read(commander.args[1]).then(quantize).then(write(commander.out)).catch(abort);
 
 function read(file) {
   return new Promise(function(resolve, reject) {

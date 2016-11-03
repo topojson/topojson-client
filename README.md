@@ -175,14 +175,34 @@ nation
 
 ### topomerge
 
-<a name="topomerge" href="#topomerge">#</a> <b>topomerge</b> [<i>options…</i>] &lt;<i>target</i>=<i>source</i>&gt; [<>](https://github.com/topojson/topojson-client/blob/master/bin/topomerge "Source")
+<a name="topomerge" href="#topomerge">#</a> <b>topomerge</b> [<i>options…</i>] &lt;<i>target</i>=<i>source</i>&gt; [<i>file</i>] [<>](https://github.com/topojson/topojson-client/blob/master/bin/topomerge "Source")
 
-Merges the source TopoJSON geometry collection, assigning to the target.
+Merges polygons (or meshes lines) from the specified *source* TopoJSON geometry collection object, assigning to the *target* object.
 
-…
+See also [topojson.merge](#merge) and [topojson.mesh](#mesh).
+
+<a name="topomerge_help" href="#topomerge_help">#</a> topomerge <b>-h</b>
+<br><a href="#topomerge_help">#</a> topomerge <b>--help</b>
+
+Output usage information.
+
+<a name="topomerge_version" href="#topomerge_version">#</a> topomerge <b>-V</b>
+<br><a href="#topomerge_version">#</a> topomerge <b>--version</b>
+
+Output the version number.
 
 ### topoquantize
 
-<a name="topoquantize" href="#topoquantize">#</a> <b>topoquantize</b> [<i>options…</i>] &lt;<i>quantization</i>&gt; [<>](https://github.com/topojson/topojson-client/blob/master/bin/topoquantize "Source")
+<a name="topoquantize" href="#topoquantize">#</a> <b>topoquantize</b> [<i>options…</i>] &lt;<i>quantization</i>&gt; [<i>file</i>] [<>](https://github.com/topojson/topojson-client/blob/master/bin/topoquantize "Source")
 
 …
+
+<a name="topoquantize_help" href="#topoquantize_help">#</a> topoquantize <b>-h</b>
+<br><a href="#topoquantize_help">#</a> topoquantize <b>--help</b>
+
+Output usage information.
+
+<a name="topoquantize_version" href="#topoquantize_version">#</a> topoquantize <b>-V</b>
+<br><a href="#topoquantize_version">#</a> topoquantize <b>--version</b>
+
+Output the version number.
