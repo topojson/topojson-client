@@ -4,6 +4,7 @@ The **topojson-client** module provides tools for manipulation TopoJSON, such as
 
 In a browser (using d3-geo and Canvas), bl.ocks.org/3783604:
 
+```html
 <!DOCTYPE html>
 <canvas width="960" height="600"></canvas>
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -22,6 +23,7 @@ d3.json("https://d3js.org/us-10m.v0.json", function(error, us) {
 });
 
 </script>
+```
 
 See [topojson](https://github.com/topojson/topojson) for converting GeoJSON to TopoJSON, [shapefile](https://github.com/mbostock/shapefile) for converting ESRI shapefiles to GeoJSON, [ndjson-cli](https://github.com/mbostock/ndjson-cli) for manipulating newline-delimited JSON streams, and [d3-geo-projection](https://github.com/d3/d3-geo-projection) for manipulating GeoJSON. See also [us-atlas](https://github.com/topojson/us-atlas) and [world-atlas](https://github.com/topojson/world-atlas) for pre-built TopoJSON.
 
