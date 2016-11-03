@@ -173,11 +173,15 @@ states
 nation
 ```
 
+### topomerge
+
 <a name="topomerge" href="#topomerge">#</a> <b>topomerge</b> [<i>options…</i>] &lt;<i>target</i>=<i>source</i>&gt; [<>](https://github.com/topojson/topojson-client/blob/master/bin/topomerge "Source")
 
 Merges the source TopoJSON geometry collection, assigning to the target.
 
 …
+
+### topoquantize
 
 <a name="topoquantize" href="#topoquantize">#</a> <b>topoquantize</b> [<i>options…</i>] &lt;<i>quantization</i>&gt; [<>](https://github.com/topojson/topojson-client/blob/master/bin/topoquantize "Source")
 
