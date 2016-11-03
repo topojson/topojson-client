@@ -116,18 +116,18 @@ If the specified *topology*’s [transform object](https://github.com/topojson/t
 
 ## Command Line Reference
 
-<a name="topo2geo" href="#topo2geo">#</a> <b>topo2geo</b> [<i>options…</i>] &lt;name=file&gt;… [<>](https://github.com/topojson/topojson-client/blob/master/bin/topo2geo "Source")
+<a name="topo2geo" href="#topo2geo">#</a> <b>topo2geo</b> [<i>options…</i>] &lt;<i>name</i>=<i>file</i>&gt;… [<>](https://github.com/topojson/topojson-client/blob/master/bin/topo2geo "Source")
 
-Converts one or more TopoJSON objects from an input topology to one or more GeoJSON features. For example, to convert the “states” TopoJSON GeometryCollection object in us-10m.json to a GeoJSON feature collection in us-states-10m.json:
-
-```
-topo2geo states=us-states-10m.json < us-10m.json
-```
-
-For convenience, you can omit the object name and specify only the file *name*; the object name will be the basename of the file, with the directory and extension removed. For example, to convert the “states” TopoJSON GeometryCollection object in us-10m.json to a GeoJSON feature collection in states.json:
+Converts one or more TopoJSON objects from an input topology to one or more GeoJSON features. For example, to convert the “states” TopoJSON GeometryCollection object in us.json to a GeoJSON feature collection in us-states.json:
 
 ```
-topo2geo states.json < us-10m.json
+topo2geo states=us-states.json < us.json
+```
+
+For convenience, you can omit the object name and specify only the file *name*; the object name will be the basename of the file, with the directory and extension removed. For example, to convert the “states” TopoJSON GeometryCollection object in us.json to a GeoJSON feature collection in states.json:
+
+```
+topo2geo states.json < us.json
 ```
 
 To list the available object names, use [--list](#topo2geo_list).
@@ -158,7 +158,7 @@ Specify the input TopoJSON file name. Defaults to “-” for stdin.
 List the names of the objects in the input topology, and then exit. For example, this:
 
 ```
-topo2geo -l < us-10m.json
+topo2geo -l < us.json
 ```
 
 Will output this:
@@ -166,13 +166,15 @@ Will output this:
 ```
 counties
 states
-land
+nation
 ```
 
-<a name="topomerge" href="#topomerge">#</a> <b>topomerge</b> [<i>options…</i>] &lt;target=source&gt; [<>](https://github.com/topojson/topojson-client/blob/master/bin/topomerge "Source")
+<a name="topomerge" href="#topomerge">#</a> <b>topomerge</b> [<i>options…</i>] &lt;<i>target</i>=<i>source</i>&gt; [<>](https://github.com/topojson/topojson-client/blob/master/bin/topomerge "Source")
+
+Merges the source TopoJSON geometry collection, assigning to the target.
 
 …
 
-<a name="topoquantize" href="#topoquantize">#</a> <b>topoquantize</b> [<i>options…</i>] &lt;quantization&gt; [<>](https://github.com/topojson/topojson-client/blob/master/bin/topoquantize "Source")
+<a name="topoquantize" href="#topoquantize">#</a> <b>topoquantize</b> [<i>options…</i>] &lt;<i>quantization</i>&gt; [<>](https://github.com/topojson/topojson-client/blob/master/bin/topoquantize "Source")
 
 …
