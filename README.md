@@ -1,6 +1,6 @@
 # TopoJSON Client
 
-The **topojson-client** module provides tools for manipulating [TopoJSON](https://github.com/topojson/topojson-specification), such as [merging shapes](#merge) and [quantizing coordinates](#quantize), and for converting back to [GeoJSON features](#feature) for rendering with standard tools such as [d3.geoPath](https://github.com/d3/d3-geo/blob/master/README.md#geoPath).
+The **topojson-client** module provides tools for manipulating [TopoJSON](https://github.com/topojson/topojson-specification), such as to [merge shapes](#merge) or [quantize coordinates](#quantize), and for converting back to [GeoJSON features](#feature) for rendering with standard tools such as [d3.geoPath](https://github.com/d3/d3-geo/blob/master/README.md#geoPath).
 
 In a browser (using d3-geo and Canvas), bl.ocks.org/3783604:
 
