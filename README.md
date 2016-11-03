@@ -116,6 +116,8 @@ If the specified *topology*’s [transform object](https://github.com/topojson/t
 
 ## Command Line Reference
 
+### topo2geo
+
 <a name="topo2geo" href="#topo2geo">#</a> <b>topo2geo</b> [<i>options…</i>] &lt;<i>name</i>=<i>file</i>&gt;… [<>](https://github.com/topojson/topojson-client/blob/master/bin/topo2geo "Source")
 
 Converts one or more TopoJSON objects from an input topology to one or more GeoJSON features. For example, to convert the “states” TopoJSON GeometryCollection object in us.json to a GeoJSON feature collection in us-states.json:
