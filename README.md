@@ -179,7 +179,7 @@ nation
 
 Merges polygons (or meshes lines) from the specified *source* TopoJSON geometry collection object, assigning to the *target* object.
 
-See also [topojson.merge](#merge) and [topojson.mesh](#mesh).
+See also [topojson.mergeArcs](#mergeArcs) and [topojson.meshArcs](#meshArcs).
 
 <a name="topomerge_help" href="#topomerge_help">#</a> topomerge <b>-h</b>
 <br><a href="#topomerge_help">#</a> topomerge <b>--help</b>
@@ -191,11 +191,40 @@ Output usage information.
 
 Output the version number.
 
+<a name="topomerge_out" href="#topomerge_out">#</a> topomerge <b>-o</b> <i>file</i>
+<br><a href="#topomerge_out">#</a> topomerge <b>--out</b> <i>file</i>
+
+Specify the output TopoJSON file name. Defaults to “-” for stdout.
+
+<a name="topomerge_key" href="#topomerge_key">#</a> topomerge <b>-k</b> <i>expression</i>
+<br><a href="#topomerge_key">#</a> topomerge <b>--key</b> <i>expression</i>
+
+Specify a JavaScript *expression*, given a TopoJSON geometry object *d* and its zero-based index *i* in its parent collection, that determines how geometry objects are grouped before merging; each group is merged separately. For example, given a topology of U.S. *counties*, where the *id* of each county is it’s five-digit FIPS code, the county boundaries can be merged into state boundaries by using the first two digits of the county FIPS code, which represents the state FIPS code:
+
+```
+topomerge states=counties -k 'd.id.slice(0, 2)' < us-counties.json > us-states.json
+```
+
+If a key is not specified, all input geometry objects will be merged together. For example, this can be used to merge the state boundaries into a single nation boundary:
+
+```
+topomerge nation=states < us-states.json > us.json
+```
+
+<a name="topomerge_filter" href="#topomerge_filter">#</a> topomerge <b>-f</b> <i>expression</i>
+<br><a href="#topomerge_filter">#</a> topomerge <b>--filter</b> <i>expression</i>
+
+Specify a JavaScript *expression* that filters the input geometries before merging or meshing. In conjunction with [--mesh](#topomerge_mesh), the *expression* is given two TopoJSON geometry objects *a* and *b* that represent the adjacent features for a given arc segment; if the *expression* evaluates truthily, the associated arc segment is retained in mesh. Otherwise, the *expression* is given an input TopoJSON geometry object *d* and its zero-based index *i* in its parent collection; if the *expression* evaluates truthily, the geometry object is retained in the merged polygon.
+
+<a name="topomerge_mesh" href="#topomerge_mesh">#</a> topomerge <b>--mesh</b>
+
+Use [topojson.meshArcs](#meshArcs) instead of [topojson.mergeArcs](#mergeArcs), generating a geometry collection of lines rather than polygons.
+
 ### topoquantize
 
-<a name="topoquantize" href="#topoquantize">#</a> <b>topoquantize</b> [<i>options…</i>] &lt;<i>quantization</i>&gt; [<i>file</i>] [<>](https://github.com/topojson/topojson-client/blob/master/bin/topoquantize "Source")
+<a name="topoquantize" href="#topoquantize">#</a> <b>topoquantize</b> [<i>options…</i>] &lt;<i>n</i>&gt; [<i>file</i>] [<>](https://github.com/topojson/topojson-client/blob/master/bin/topoquantize "Source")
 
-…
+Quantizes the coordinates of the input TopoJSON topology and [delta-encodes](https://github.com/topojson/topojson-specification#213-arcs) the topology’s arcs. The quantization parameter *n* must be a positive integer greater than one, and determines the maximum expressible number of unique values per dimension in the resulting quantized coordinates; typically, a power of ten is chosen such as 1e4, 1e5 or 1e6. If the *topology* does not already have a [bbox](#bbox), one is computed and assigned. If the *topology* is already quantized, an error is thrown. See also [topojson.quantize](#quantize).
 
 <a name="topoquantize_help" href="#topoquantize_help">#</a> topoquantize <b>-h</b>
 <br><a href="#topoquantize_help">#</a> topoquantize <b>--help</b>
@@ -206,3 +235,8 @@ Output usage information.
 <br><a href="#topoquantize_version">#</a> topoquantize <b>--version</b>
 
 Output the version number.
+
+<a name="topoquantize_out" href="#topoquantize_out">#</a> topoquantize <b>-o</b> <i>file</i>
+<br><a href="#topoquantize_out">#</a> topoquantize <b>--out</b> <i>file</i>
+
+Specify the output TopoJSON file name. Defaults to “-” for stdout.
