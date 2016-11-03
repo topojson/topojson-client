@@ -1,8 +1,6 @@
 # TopoJSON Client
 
-The **topojson-client** module provides tools for manipulating [TopoJSON](https://github.com/topojson/topojson-specification), such as to [merge shapes](#merge) or [quantize coordinates](#quantize), and for converting back to [GeoJSON features](#feature) for rendering with standard tools such as [d3.geoPath](https://github.com/d3/d3-geo/blob/master/README.md#geoPath).
-
-For example, [bl.ocks.org/3783604](https://bl.ocks.org/mbostock/3783604):
+The **topojson-client** module provides tools for manipulating [TopoJSON](https://github.com/topojson/topojson-specification), such as to [merge shapes](#merge) or [quantize coordinates](#quantize), and for converting back to [GeoJSON features](#feature) for rendering with standard tools such as [d3.geoPath](https://github.com/d3/d3-geo/blob/master/README.md#geoPath). For example, [bl.ocks.org/3783604](https://bl.ocks.org/mbostock/3783604):
 
 ```html
 <!DOCTYPE html>
@@ -98,11 +96,11 @@ For a practical example, see the [world map](https://bl.ocks.org/mbostock/418063
 
 <a name="bbox" href="#bbox">#</a> topojson.<b>bbox</b>(<i>topology</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/bbox.js "Source")
 
-…
+If the given *topology* has a *topology*.bbox, returns it. Otherwise, computes the bounding box of the *topology* [*x*₀, *y*₀, *x*₁, *y*₁] where *x*₀ is the minimum *x*-value, *y*₀ is the minimum *y*-value, *x*₁ is the maximum *x*-value, and *y*₁ is the maximum *y*-value. The computed bounding box is then assigned to *topology*.bbox and returned.
 
 <a name="quantize" href="#quantize">#</a> topojson.<b>quantize</b>(<i>topology</i>, <i>n</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/quantize.js "Source")
 
-…
+Quantizes the coordinates of the specified *topology* and [delta-encodes](https://github.com/topojson/topojson-specification#213-arcs) the *topology*’s arcs. The quantization parameter *n* must be a positive integer greater than one, and determines the maximum expressible number of unique values per dimension in the resulting quantized coordinates; typically, a power of ten is chosen such as 1e4, 1e5 or 1e6. If the *topology* does not already have a [bbox](#bbox), one is computed and assigned. If the *topology* is already quantized, an error is thrown. See also [topoquantize](#topoquantize).
 
 <a name="_transform" href="#_transform">#</a> <i>transform</i>(<i>point</i>[, <i>index</i>])
 
