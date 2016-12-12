@@ -25,10 +25,10 @@ d3.json("https://d3js.org/us-10m.v1.json", function(error, us) {
 
 ## Installing
 
-If you use NPM, `npm install topojson-client`. Otherwise, download the [latest release](https://github.com/topojson/topojson-client/releases/latest). You can also load directly from [UNPKG](https://unpkg.com) as a [standalone library](https://unpkg.com/topojson@2). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `topojson` global is exported:
+If you use NPM, `npm install topojson-client`. Otherwise, download the [latest release](https://github.com/topojson/topojson-client/releases/latest). You can also load directly from [UNPKG](https://unpkg.com) as a [standalone library](https://unpkg.com/topojson-client@2). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `topojson` global is exported:
 
 ```html
-<script src="https://unpkg.com/topojson@2"></script>
+<script src="https://unpkg.com/topojson-client@2"></script>
 <script>
 
 var feature = topojson.feature(topology, topology.objects.foo);
