@@ -1,6 +1,6 @@
 # TopoJSON Client
 
-The **topojson-client** module provides tools for manipulating [TopoJSON](https://github.com/topojson/topojson-specification), such as to [merge shapes](#merge) or [quantize coordinates](#quantize), and for converting back to [GeoJSON features](#feature) for rendering with standard tools such as [d3.geoPath](https://github.com/d3/d3-geo/blob/master/README.md#geoPath). For example, [bl.ocks.org/3783604](https://bl.ocks.org/mbostock/3783604):
+The **topojson-client** module provides tools for manipulating [TopoJSON](https://github.com/topojson/topojson), such as to [merge shapes](#merge) or [quantize coordinates](#quantize), and for converting back to [GeoJSON](#feature) for rendering with standard tools such as [d3.geoPath](https://github.com/d3/d3-geo/blob/master/README.md#geoPath). For example, [bl.ocks.org/3783604](https://bl.ocks.org/mbostock/3783604):
 
 ```html
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ The **topojson-client** module provides tools for manipulating [TopoJSON](https:
 var context = d3.select("canvas").node().getContext("2d"),
     path = d3.geoPath().context(context);
 
-d3.json("https://d3js.org/us-10m.v0.json", function(error, us) {
+d3.json("https://d3js.org/us-10m.v1.json", function(error, us) {
   if (error) throw error;
 
   context.beginPath();
@@ -23,14 +23,12 @@ d3.json("https://d3js.org/us-10m.v0.json", function(error, us) {
 </script>
 ```
 
-See [topojson](https://github.com/topojson/topojson) for converting GeoJSON to TopoJSON, [shapefile](https://github.com/mbostock/shapefile) for converting ESRI shapefiles to GeoJSON, [ndjson-cli](https://github.com/mbostock/ndjson-cli) for manipulating newline-delimited JSON streams, and [d3-geo-projection](https://github.com/d3/d3-geo-projection) for manipulating GeoJSON. See also [us-atlas](https://github.com/topojson/us-atlas) and [world-atlas](https://github.com/topojson/world-atlas) for pre-built TopoJSON.
-
 ## Installing
 
-If you use NPM, `npm install topojson-client`. Otherwise, download the [latest release](https://github.com/topojson/topojson-client/releases/latest). You can also load directly from [d3js.org](https://d3js.org) as a [standalone library](https://d3js.org/topojson.v2.min.js). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `topojson` global is exported:
+If you use NPM, `npm install topojson-client`. Otherwise, download the [latest release](https://github.com/topojson/topojson-client/releases/latest). You can also load directly from [UNPKG](https://unpkg.com) as a [standalone library](https://unpkg.com/topojson@2). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `topojson` global is exported:
 
 ```html
-<script src="https://d3js.org/topojson.v2.min.js"></script>
+<script src="https://unpkg.com/topojson@2"></script>
 <script>
 
 var feature = topojson.feature(topology, topology.objects.foo);

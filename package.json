@@ -28,7 +28,7 @@
     "pretest": "rm -rf dist && mkdir dist && rollup --banner \"$(preamble)\" -f umd -n topojson -o dist/topojson-client.js -- index.js",
     "test": "tape 'test/**/*-test.js' && eslint index.js src",
     "prepublish": "npm run test && uglifyjs --preamble \"$(preamble)\" -cm -o dist/topojson-client.min.js -- dist/topojson-client.js",
-    "postpublish": "VERSION=`node -e 'console.log(require(\"./package.json\").version)'`; git push && git push --tags && cp -v README.md LICENSE.md dist/topojson-client.js dist/topojson-client.min.js ../topojson-bower && cd ../topojson-bower && mv topojson-client.js topojson.js && mv topojson-client.min.js topojson.min.js && git add README.md LICENSE.md topojson.js topojson.min.js && git commit -m \"Release $VERSION.\" && git tag -am \"Release $VERSION.\" v${VERSION} && git push && git push --tags && cd - && cp dist/topojson-client.js ../d3.github.com/topojson.v2.js && cp dist/topojson-client.min.js ../d3.github.com/topojson.v2.min.js && cd ../d3.github.com && git add topojson.v2.js topojson.v2.min.js && git commit -m \"topojson ${VERSION}\" && git push && cd - && zip -j dist/topojson-client.zip -- LICENSE.md README.md dist/topojson-client.js dist/topojson-client.min.js"
+    "postpublish": "git push && git push --tags && zip -j dist/topojson-client.zip -- LICENSE.md README.md dist/topojson-client.js dist/topojson-client.min.js"
   },
   "dependencies": {
     "commander": "2"
