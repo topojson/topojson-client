@@ -96,9 +96,13 @@ For a practical example, see the [world map](https://bl.ocks.org/mbostock/418063
 
 If the given *topology* has a [*topology*.bbox](https://github.com/topojson/topojson-specification#3-bounding-boxes), returns it. Otherwise, computes the bounding box of the *topology* [*x*₀, *y*₀, *x*₁, *y*₁] where *x*₀ is the minimum *x*-value, *y*₀ is the minimum *y*-value, *x*₁ is the maximum *x*-value, and *y*₁ is the maximum *y*-value. The computed bounding box is then assigned to *topology*.bbox and returned. If the *topology* has no points and no non-empty arcs, the returned bounding box is [∞, ∞, -∞, -∞].
 
+**CAUTION:** The input *topology* is modified **in-place**.
+
 <a name="quantize" href="#quantize">#</a> topojson.<b>quantize</b>(<i>topology</i>, <i>n</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/quantize.js "Source")
 
 Quantizes the coordinates of the specified *topology* and [delta-encodes](https://github.com/topojson/topojson-specification#213-arcs) the *topology*’s arcs. The quantization parameter *n* must be a positive integer greater than one, and determines the maximum expressible number of unique values per dimension in the resulting quantized coordinates; typically, a power of ten is chosen such as 1e4, 1e5 or 1e6. If the *topology* does not already have a [bbox](#bbox), one is computed and assigned. If the *topology* is already quantized, an error is thrown. See also [topoquantize](#topoquantize).
+
+**CAUTION:** The input *topology* is modified **in-place**.
 
 <a name="_transform" href="#_transform">#</a> <i>transform</i>(<i>point</i>[, <i>index</i>])
 
@@ -108,9 +112,13 @@ Transforms the specified *point* **in-place**, modifying the *point*’s coordin
 
 If the specified *topology*’s [transform object](https://github.com/topojson/topojson-specification/blob/master/README.md#212-transforms) is non-null, returns a [point *transform* function](#_transform) to remove delta-encoding and apply the transform. If the *topology*’s transform object is null, returns the identity function.
 
+**CAUTION:** The input *topology* is modified **in-place**.
+
 <a name="untransform" href="#untransform">#</a> topojson.<b>untransform</b>(<i>topology</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/untransform.js "Source")
 
 If the specified *topology*’s [transform object](https://github.com/topojson/topojson-specification/blob/master/README.md#212-transforms) is non-null, returns a [point *transform* function](#_transform) to apply delta-encoding and remove the transform. If the *topology*’s transform object is null, returns the identity function.
+
+**CAUTION:** The input *topology* is modified **in-place**.
 
 ## Command Line Reference
 
