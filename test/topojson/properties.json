@@ -1,0 +1,53 @@
+{
+  "type": "Topology",
+  "bbox": [0, 0, 10, 10],
+  "objects": {
+    "point": {
+      "id": "pointy",
+      "bbox": [1, 2, 1, 2],
+      "properties": {
+        "name": "Point E. Daht"
+      },
+      "type": "Point",
+      "coordinates": [1, 2]
+    },
+    "points": {
+      "id": "pointies",
+      "bbox": [1, 2, 3, 4],
+      "properties": {
+        "name": "Sir Points-a-Lot"
+      },
+      "type": "MultiPoint",
+      "coordinates": [[1, 2], [3, 4]]
+    },
+    "collection": {
+      "id": "collection",
+      "bbox": [1, 2, 1, 2],
+      "properties": {
+        "name": "Collection"
+      },
+      "type": "GeometryCollection",
+      "geometries": [
+        {
+          "type": "Point",
+          "id": "collection-point",
+          "coordinates": [1, 2]
+        }
+      ]
+    },
+    "polygon": {
+      "id": "polly",
+      "bbox": [0, 0, 10, 10],
+      "properties": {
+        "name": "Polly Gan"
+      },
+      "type": "Polygon",
+      "arcs": [
+        [0]
+      ]
+    }
+  },
+  "arcs": [
+    [[0, 0], [0, 10], [10, 10], [10, 0], [0, 0]]
+  ]
+}

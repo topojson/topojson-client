@@ -17,13 +17,18 @@ export default function(topology, n) {
     return tp(point);
   }
 
-  function quantizeGeometry(geometry) {
-    switch (geometry.type) {
-      case "GeometryCollection": return {type: "GeometryCollection", geometries: geometry.geometries.map(quantizeGeometry)}; // TODO id, bbox, features
-      case "Point": return {type: "Point", coordinates: quantizePoint(geometry.coordinates)}; // TODO id, bbox, features
-      case "MultiPoint": return {type: "MultiPoint", coordinates: geometry.coordinates.map(quantizePoint)}; // TODO id, bbox, features
-      default: return geometry;
+  function quantizeGeometry(input) {
+    var output;
+    switch (input.type) {
+      case "GeometryCollection": output = {type: "GeometryCollection", geometries: input.geometries.map(quantizeGeometry)}; break;
+      case "Point": output = {type: "Point", coordinates: quantizePoint(input.coordinates)}; break;
+      case "MultiPoint": output = {type: "MultiPoint", coordinates: input.coordinates.map(quantizePoint)}; break;
+      default: return input;
     }
+    if (input.id != null) output.id = input.id;
+    if (input.bbox != null) output.bbox = input.bbox;
+    if (input.properties != null) output.properties = input.properties;
+    return output;
   }
 
   function quantizeArc(input) {

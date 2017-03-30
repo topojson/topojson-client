@@ -13,6 +13,11 @@ tape("topojson.quantize(topology, n) ensures that each arc has at least two poin
   test.end();
 });
 
+tape("topojson.quantize(topology, n) preserves the id, bbox and properties of input objects", function(test) {
+  test.deepEqual(topojson.quantize(JSON.parse(fs.readFileSync("test/topojson/properties.json")), 1e4), JSON.parse(fs.readFileSync("test/topojson/properties-q1e4.json")));
+  test.end();
+});
+
 tape("topojson.quantize(topology, n) throws an error if n is not at least two", function(test) {
   var topology = JSON.parse(fs.readFileSync("test/topojson/polygon.json"));
   test.throws(function() { topojson.quantize(topology, 0); }, /n must be ≥2/);
