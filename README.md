@@ -96,13 +96,11 @@ For a practical example, see the [world map](https://bl.ocks.org/mbostock/418063
 
 Returns the computed [bounding box](https://github.com/topojson/topojson-specification#3-bounding-boxes) of the specified *topology* [*x*₀, *y*₀, *x*₁, *y*₁] where *x*₀ is the minimum *x*-value, *y*₀ is the minimum *y*-value, *x*₁ is the maximum *x*-value, and *y*₁ is the maximum *y*-value. If the *topology* has no points and no arcs, the returned bounding box is [∞, ∞, -∞, -∞]. (This method ignores the existing *topology*.bbox, if any.)
 
-<a name="quantize" href="#quantize">#</a> topojson.<b>quantize</b>(<i>topology</i>, <i>n</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/quantize.js "Source")
+<a name="quantize" href="#quantize">#</a> topojson.<b>quantize</b>(<i>topology</i>, <i>transform</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/quantize.js "Source")
 
-Returns a shallow copy of the specified *topology* with [quantized and delta-encoded](https://github.com/topojson/topojson-specification#213-arcs) arcs. The quantization parameter *n* must be a positive integer greater than one, and determines the maximum expressible number of unique values per dimension in the resulting quantized coordinates; typically, a power of ten is chosen such as 1e4, 1e5 or 1e6. If the *topology* does not already have a [bbox](#bbox), one is computed. If the *topology* is already quantized, an error is thrown. See also [topoquantize](#topoquantize).
+Returns a shallow copy of the specified *topology* with [quantized and delta-encoded](https://github.com/topojson/topojson-specification#213-arcs) arcs according to the specified [*transform* object](https://github.com/topojson/topojson-specification/blob/master/README.md#212-transforms). If the *topology* is already quantized, an error is thrown. See also [topoquantize](#topoquantize).
 
-<a name="_transform" href="#_transform">#</a> <i>transform</i>(<i>point</i>[, <i>index</i>])
-
-Applies this transform to the specified *point*, returning a new point with the transformed coordinates. If the specified *index* is truthy, the input *point* is treated as relative to the previous point passed to this transform, as is the case with delta-encoded arcs.
+If a quantization number *n* is specified instead of a *transform* object, the corresponding transform object is first computed using the bounding box of the topology. In this case, the quantization number *n* must be a positive integer greater than one which determines the maximum number of expressible values per dimension in the resulting quantized coordinates; typically, a power of ten is chosen such as 1e4, 1e5 or 1e6. If the *topology* does not already have a *topology*.bbox, one is computed using [topojson.bbox](#bbox).
 
 <a name="transform" href="#transform">#</a> topojson.<b>transform</b>(<i>transform</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/transform.js "Source")
 
@@ -111,6 +109,10 @@ If the specified [*transform* object](https://github.com/topojson/topojson-speci
 <a name="untransform" href="#untransform">#</a> topojson.<b>untransform</b>(<i>transform</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/untransform.js "Source")
 
 If the specified [*transform* object](https://github.com/topojson/topojson-specification/blob/master/README.md#212-transforms) is non-null, returns a [point *transform* function](#_transform) to apply quantized delta-encoding and remove the transform. If the *transform* is null, returns the identity function. See also [topojson.quantize](#quantize).
+
+<a name="_transform" href="#_transform">#</a> <i>transform</i>(<i>point</i>[, <i>index</i>])
+
+Applies this transform function to the specified *point*, returning a new point with the transformed coordinates. If the specified *index* is truthy, the input *point* is treated as relative to the previous point passed to this transform, as is the case with delta-encoded arcs.
 
 ## Command Line Reference
 
