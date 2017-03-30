@@ -26,10 +26,11 @@ export default function(topology, n) {
     }
   }
 
-  function quantizeArc(input/*, m*/) {
+  function quantizeArc(input) {
     var i = 0, j = 1, n = input.length, p, output = new Array(n); // pessimistic
     output[0] = tp(input[0], 0);
     while (++i < n) if ((p = tp(input[i], i))[0] || p[1]) output[j++] = p; // non-coincident points
+    if (j === 1) output[j++] = [0, 0]; // an arc must have at least two points
     output.length = j;
     return output;
   }
