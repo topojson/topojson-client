@@ -110,7 +110,7 @@ If the specified [*transform* object](https://github.com/topojson/topojson-speci
 
 <a name="untransform" href="#untransform">#</a> topojson.<b>untransform</b>(<i>transform</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/untransform.js "Source")
 
-If the specified [*transform* object](https://github.com/topojson/topojson-specification/blob/master/README.md#212-transforms) is non-null, returns a [point *transform* function](#_transform) to apply delta-encoding and remove the transform. If the *transform* is null, returns the identity function.
+If the specified [*transform* object](https://github.com/topojson/topojson-specification/blob/master/README.md#212-transforms) is non-null, returns a [point *transform* function](#_transform) to apply quantized delta-encoding and remove the transform. If the *transform* is null, returns the identity function.
 
 ## Command Line Reference
 
