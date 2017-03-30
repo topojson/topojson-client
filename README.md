@@ -98,7 +98,7 @@ Returns the computed [bounding box](https://github.com/topojson/topojson-specifi
 
 <a name="quantize" href="#quantize">#</a> topojson.<b>quantize</b>(<i>topology</i>, <i>n</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/quantize.js "Source")
 
-Returns a shallow copy of the specified *topology* with quantized and [delta-encoded](https://github.com/topojson/topojson-specification#213-arcs) arcs. The quantization parameter *n* must be a positive integer greater than one, and determines the maximum expressible number of unique values per dimension in the resulting quantized coordinates; typically, a power of ten is chosen such as 1e4, 1e5 or 1e6. If the *topology* does not already have a [bbox](#bbox), one is computed. If the *topology* is already quantized, an error is thrown. See also [topoquantize](#topoquantize).
+Returns a shallow copy of the specified *topology* with [quantized and delta-encoded](https://github.com/topojson/topojson-specification#213-arcs) arcs. The quantization parameter *n* must be a positive integer greater than one, and determines the maximum expressible number of unique values per dimension in the resulting quantized coordinates; typically, a power of ten is chosen such as 1e4, 1e5 or 1e6. If the *topology* does not already have a [bbox](#bbox), one is computed. If the *topology* is already quantized, an error is thrown. See also [topoquantize](#topoquantize).
 
 <a name="_transform" href="#_transform">#</a> <i>transform</i>(<i>point</i>[, <i>index</i>])
 
