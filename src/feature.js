@@ -18,31 +18,31 @@ export function feature(topology, o) {
 }
 
 export function object(topology, o) {
-  var transformPoint = transform(topology),
+  var transformPoint = transform(topology.transform),
       arcs = topology.arcs;
 
   function arc(i, points) {
     if (points.length) points.pop();
     for (var a = arcs[i < 0 ? ~i : i], k = 0, n = a.length; k < n; ++k) {
-      points.push(transformPoint(a[k].slice(), k));
+      points.push(transformPoint(a[k], k));
     }
     if (i < 0) reverse(points, n);
   }
 
   function point(p) {
-    return transformPoint(p.slice());
+    return transformPoint(p);
   }
 
   function line(arcs) {
     var points = [];
     for (var i = 0, n = arcs.length; i < n; ++i) arc(arcs[i], points);
-    if (points.length < 2) points.push(points[0].slice());
+    if (points.length < 2) points.push([points[0][0], points[0][1]]); // This should never happen per the specification.
     return points;
   }
 
   function ring(arcs) {
     var points = line(arcs);
-    while (points.length < 4) points.push(points[0].slice());
+    while (points.length < 4) points.push([points[0][0], points[0][1]]); // This may happen if an arc has only two points.
     return points;
   }
 

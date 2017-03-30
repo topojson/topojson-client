@@ -26,10 +26,11 @@ tape("topojson.quantize(topology, n) throws an error if the topology is already 
   test.end();
 });
 
-tape("topojson.quantize(topology, n) assigns a bounding box if it is missing", function(test) {
-  var topology = JSON.parse(fs.readFileSync("test/topojson/polygon.json"));
-  delete topology.bbox;
-  test.deepEqual(topojson.quantize(topology, 1e4), JSON.parse(fs.readFileSync("test/topojson/polygon-q1e4.json")));
-  test.deepEqual(topology.bbox, [0, 0, 10, 10]);
+tape("topojson.quantize(topology, n) returns a new topology with a bounding box", function(test) {
+  var before = JSON.parse(fs.readFileSync("test/topojson/polygon.json")),
+      after = (before.bbox = null, topojson.quantize(before, 1e4));
+  test.deepEqual(after, JSON.parse(fs.readFileSync("test/topojson/polygon-q1e4.json")));
+  test.deepEqual(after.bbox, [0, 0, 10, 10]);
+  test.equal(before.bbox, null);
   test.end();
 });
