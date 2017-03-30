@@ -12,9 +12,9 @@ export default function(topology) {
     if (p[1] > y1) y1 = p[1];
   }
 
-  function bboxPoints(o) {
+  function bboxGeometry(o) {
     switch (o.type) {
-      case "GeometryCollection": o.geometries.forEach(bboxPoints); break;
+      case "GeometryCollection": o.geometries.forEach(bboxGeometry); break;
       case "Point": bboxPoint(o.coordinates); break;
       case "MultiPoint": o.coordinates.forEach(bboxPoint); break;
     }
@@ -32,7 +32,7 @@ export default function(topology) {
   });
 
   for (key in topology.objects) {
-    bboxPoints(topology.objects[key]);
+    bboxGeometry(topology.objects[key]);
   }
 
   return [x0, y0, x1, y1];
