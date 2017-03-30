@@ -94,7 +94,7 @@ For a practical example, see the [world map](https://bl.ocks.org/mbostock/418063
 
 <a name="bbox" href="#bbox">#</a> topojson.<b>bbox</b>(<i>topology</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/bbox.js "Source")
 
-Returns the computed [bounding box](https://github.com/topojson/topojson-specification#3-bounding-boxes) of the specified *topology* [*x*₀, *y*₀, *x*₁, *y*₁] where *x*₀ is the minimum *x*-value, *y*₀ is the minimum *y*-value, *x*₁ is the maximum *x*-value, and *y*₁ is the maximum *y*-value. If the *topology* has no points and no non-empty arcs, the returned bounding box is [∞, ∞, -∞, -∞].
+Returns the computed [bounding box](https://github.com/topojson/topojson-specification#3-bounding-boxes) of the specified *topology* [*x*₀, *y*₀, *x*₁, *y*₁] where *x*₀ is the minimum *x*-value, *y*₀ is the minimum *y*-value, *x*₁ is the maximum *x*-value, and *y*₁ is the maximum *y*-value. If the *topology* has no points and no arcs, the returned bounding box is [∞, ∞, -∞, -∞].
 
 <a name="quantize" href="#quantize">#</a> topojson.<b>quantize</b>(<i>topology</i>, <i>n</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/quantize.js "Source")
 
