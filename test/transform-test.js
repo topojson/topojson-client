@@ -22,6 +22,14 @@ tape("transform(point) returns a new point", function(test) {
   test.end();
 });
 
+tape("transform(point) preserves extra dimensions", function(test) {
+  var transform = topojson.transform({scale: [2, 3], translate: [4, 5]});
+  test.deepEqual(transform([6, 7, 42]), [16, 26, 42]);
+  test.deepEqual(transform([6, 7, "foo"]), [16, 26, "foo"]);
+  test.deepEqual(transform([6, 7, "foo", 42]), [16, 26, "foo", 42]);
+  test.end();
+});
+
 tape("transform(point) transforms individual points", function(test) {
   var transform = topojson.transform({scale: [2, 3], translate: [4, 5]});
   test.deepEqual(transform([1, 2]), [6, 11]);
