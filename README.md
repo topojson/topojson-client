@@ -102,7 +102,7 @@ Returns a shallow copy of the specified *topology* with [quantized and delta-enc
 
 <a name="_transform" href="#_transform">#</a> <i>transform</i>(<i>point</i>[, <i>index</i>])
 
-Applies the transform to the specified *point*, returning a new point with the transformed coordinates. If the specified *index* is truthy, the input *point* is treated as relative to the previous point passed to the transform, as is the case with delta-encoded arcs.
+Applies this transform to the specified *point*, returning a new point with the transformed coordinates. If the specified *index* is truthy, the input *point* is treated as relative to the previous point passed to this transform, as is the case with delta-encoded arcs.
 
 <a name="transform" href="#transform">#</a> topojson.<b>transform</b>(<i>transform</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/transform.js "Source")
 
