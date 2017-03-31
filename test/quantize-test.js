@@ -8,6 +8,16 @@ tape("topojson.quantize(topology, n) quantizes the input topology", function(tes
   test.end();
 });
 
+tape("topojson.quantize(topology, n) ensures that each arc has at least two points", function(test) {
+  test.deepEqual(topojson.quantize(JSON.parse(fs.readFileSync("test/topojson/empty.json")), 1e4), JSON.parse(fs.readFileSync("test/topojson/empty-q1e4.json")));
+  test.end();
+});
+
+tape("topojson.quantize(topology, n) preserves the id, bbox and properties of input objects", function(test) {
+  test.deepEqual(topojson.quantize(JSON.parse(fs.readFileSync("test/topojson/properties.json")), 1e4), JSON.parse(fs.readFileSync("test/topojson/properties-q1e4.json")));
+  test.end();
+});
+
 tape("topojson.quantize(topology, n) throws an error if n is not at least two", function(test) {
   var topology = JSON.parse(fs.readFileSync("test/topojson/polygon.json"));
   test.throws(function() { topojson.quantize(topology, 0); }, /n must be ≥2/);
@@ -26,10 +36,11 @@ tape("topojson.quantize(topology, n) throws an error if the topology is already 
   test.end();
 });
 
-tape("topojson.quantize(topology, n) assigns a bounding box if it is missing", function(test) {
-  var topology = JSON.parse(fs.readFileSync("test/topojson/polygon.json"));
-  delete topology.bbox;
-  test.deepEqual(topojson.quantize(topology, 1e4), JSON.parse(fs.readFileSync("test/topojson/polygon-q1e4.json")));
-  test.deepEqual(topology.bbox, [0, 0, 10, 10]);
+tape("topojson.quantize(topology, n) returns a new topology with a bounding box", function(test) {
+  var before = JSON.parse(fs.readFileSync("test/topojson/polygon.json")),
+      after = (before.bbox = null, topojson.quantize(before, 1e4));
+  test.deepEqual(after, JSON.parse(fs.readFileSync("test/topojson/polygon-q1e4.json")));
+  test.deepEqual(after.bbox, [0, 0, 10, 10]);
+  test.equal(before.bbox, null);
   test.end();
 });

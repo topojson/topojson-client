@@ -1,0 +1,23 @@
+{
+  "type": "Topology",
+  "bbox": [0, 0, 10, 10],
+  "transform": {
+    "scale": [0.001000100010001, 0.001000100010001],
+    "translate": [0, 0]
+  },
+  "objects": {
+    "polygon": {
+      "type": "Polygon",
+      "arcs": [
+        [0]
+      ]
+    },
+    "line": {
+      "type": "LineString",
+      "arcs": [0]
+    }
+  },
+  "arcs": [
+    [[1000, 2000], [0, 0]]
+  ]
+}

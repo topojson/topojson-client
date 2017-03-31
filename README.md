@@ -6,7 +6,7 @@ The **topojson-client** module provides tools for manipulating [TopoJSON](https:
 <!DOCTYPE html>
 <canvas width="960" height="600"></canvas>
 <script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="https://d3js.org/topojson.v2.min.js"></script>
+<script src="https://unpkg.com/topojson-client@3"></script>
 <script>
 
 var context = d3.select("canvas").node().getContext("2d"),
@@ -25,10 +25,10 @@ d3.json("https://d3js.org/us-10m.v1.json", function(error, us) {
 
 ## Installing
 
-If you use NPM, `npm install topojson-client`. Otherwise, download the [latest release](https://github.com/topojson/topojson-client/releases/latest). You can also load directly from [UNPKG](https://unpkg.com) as a [standalone library](https://unpkg.com/topojson-client@2). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `topojson` global is exported:
+If you use NPM, `npm install topojson-client`. Otherwise, download the [latest release](https://github.com/topojson/topojson-client/releases/latest). You can also load directly from [UNPKG](https://unpkg.com) as a [standalone library](https://unpkg.com/topojson-client@3). AMD, CommonJS, and vanilla environments are supported. In vanilla, a `topojson` global is exported:
 
 ```html
-<script src="https://unpkg.com/topojson-client@2"></script>
+<script src="https://unpkg.com/topojson-client@3"></script>
 <script>
 
 var feature = topojson.feature(topology, topology.objects.foo);
@@ -48,7 +48,7 @@ import * as topojson from "topojson-client";
 
 <a name="feature" href="#feature">#</a> topojson.<b>feature</b>(<i>topology</i>, <i>object</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/feature.js "Source")
 
-Returns the GeoJSON Feature or FeatureCollection for the specified *object* in the given *topology*. If the specified object is a GeometryCollection, a FeatureCollection is returned, and each geometry in the collection is mapped to a Feature. Otherwise, a Feature is returned.
+Returns the GeoJSON Feature or FeatureCollection for the specified *object* in the given *topology*. If the specified object is a GeometryCollection, a FeatureCollection is returned, and each geometry in the collection is mapped to a Feature. Otherwise, a Feature is returned. The returned feature is a shallow copy of the source *object*: they may share identifiers, bounding boxes, properties and coordinates.
 
 Some examples:
 
@@ -62,15 +62,15 @@ See [feature-test.js](https://github.com/topojson/topojson-client/blob/master/te
 
 <a name="merge" href="#merge">#</a> topojson.<b>merge</b>(<i>topology</i>, <i>objects</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/merge.js#L5 "Source")
 
-Returns the GeoJSON MultiPolygon geometry object representing the union for the specified array of Polygon and MultiPolygon *objects* in the given *topology*. Interior borders shared by adjacent polygons are removed. See [Merging States](https://bl.ocks.org/mbostock/5416405) for an example.
+Returns the GeoJSON MultiPolygon geometry object representing the union for the specified array of Polygon and MultiPolygon *objects* in the given *topology*. Interior borders shared by adjacent polygons are removed. See [Merging States](https://bl.ocks.org/mbostock/5416405) for an example. The returned geometry is a shallow copy of the source *object*: they may share coordinates.
 
 <a name="mergeArcs" href="#mergeArcs">#</a> topojson.<b>mergeArcs</b>(<i>topology</i>, <i>objects</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/merge.js#L9 "Source")
 
-Equivalent to [topojson.merge](#merge), but returns TopoJSON rather than GeoJSON.
+Equivalent to [topojson.merge](#merge), but returns TopoJSON rather than GeoJSON. The returned geometry is a shallow copy of the source *object*: they may share coordinates.
 
 <a name="mesh" href="#mesh">#</a> topojson.<b>mesh</b>(<i>topology</i>[, <i>object</i>[, <i>filter</i>]]) [<>](https://github.com/topojson/topojson-client/blob/master/src/mesh.js#L4 "Source")
 
-Returns the GeoJSON MultiLineString geometry object representing the mesh for the specified *object* in the given *topology*. This is useful for rendering strokes in complicated objects efficiently, as edges that are shared by multiple features are only stroked once. If *object* is not specified, a mesh of the entire topology is returned.
+Returns the GeoJSON MultiLineString geometry object representing the mesh for the specified *object* in the given *topology*. This is useful for rendering strokes in complicated objects efficiently, as edges that are shared by multiple features are only stroked once. If *object* is not specified, a mesh of the entire topology is returned. The returned geometry is a shallow copy of the source *object*: they may share coordinates.
 
 An optional *filter* function may be specified to prune arcs from the returned mesh using the topology. The filter function is called once for each candidate arc and takes two arguments, *a* and *b*, two geometry objects that share that arc. Each arc is only included in the resulting mesh if the filter function returns true. For typical map topologies the geometries *a* and *b* are adjacent polygons and the candidate arc is their boundary. If an arc is only used by a single geometry then *a* and *b* are identical. This property is useful for separating interior and exterior boundaries; an easy way to produce a mesh of interior boundaries is:
 
@@ -82,7 +82,7 @@ See this [county choropleth](https://bl.ocks.org/mbostock/4060606) for example. 
 
 <a name="meshArcs" href="#meshArcs">#</a> topojson.<b>meshArcs</b>(<i>topology</i>[, <i>object</i>[, <i>filter</i>]]) [<>](https://github.com/topojson/topojson-client/blob/master/src/mesh.js#L8 "Source")
 
-Equivalent to [topojson.mesh](#mesh), but returns TopoJSON rather than GeoJSON.
+Equivalent to [topojson.mesh](#mesh), but returns TopoJSON rather than GeoJSON. The returned geometry is a shallow copy of the source *object*: they may share coordinates.
 
 <a name="neighbors" href="#neighbors">#</a> topojson.<b>neighbors</b>(<i>objects</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/neighbors.js "Source")
 
@@ -94,31 +94,25 @@ For a practical example, see the [world map](https://bl.ocks.org/mbostock/418063
 
 <a name="bbox" href="#bbox">#</a> topojson.<b>bbox</b>(<i>topology</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/bbox.js "Source")
 
-If the given *topology* has a [*topology*.bbox](https://github.com/topojson/topojson-specification#3-bounding-boxes), returns it. Otherwise, computes the bounding box of the *topology* [*x*₀, *y*₀, *x*₁, *y*₁] where *x*₀ is the minimum *x*-value, *y*₀ is the minimum *y*-value, *x*₁ is the maximum *x*-value, and *y*₁ is the maximum *y*-value. The computed bounding box is then assigned to *topology*.bbox and returned. If the *topology* has no points and no non-empty arcs, the returned bounding box is [∞, ∞, -∞, -∞].
+Returns the computed [bounding box](https://github.com/topojson/topojson-specification#3-bounding-boxes) of the specified *topology* [*x*₀, *y*₀, *x*₁, *y*₁] where *x*₀ is the minimum *x*-value, *y*₀ is the minimum *y*-value, *x*₁ is the maximum *x*-value, and *y*₁ is the maximum *y*-value. If the *topology* has no points and no arcs, the returned bounding box is [∞, ∞, -∞, -∞]. (This method ignores the existing *topology*.bbox, if any.)
 
-**CAUTION:** The input *topology* is modified **in-place**.
+<a name="quantize" href="#quantize">#</a> topojson.<b>quantize</b>(<i>topology</i>, <i>transform</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/quantize.js "Source")
 
-<a name="quantize" href="#quantize">#</a> topojson.<b>quantize</b>(<i>topology</i>, <i>n</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/quantize.js "Source")
+Returns a shallow copy of the specified *topology* with [quantized and delta-encoded](https://github.com/topojson/topojson-specification#213-arcs) arcs according to the specified [*transform* object](https://github.com/topojson/topojson-specification/blob/master/README.md#212-transforms). If the *topology* is already quantized, an error is thrown. See also [topoquantize](#topoquantize).
 
-Quantizes the coordinates of the specified *topology* and [delta-encodes](https://github.com/topojson/topojson-specification#213-arcs) the *topology*’s arcs. The quantization parameter *n* must be a positive integer greater than one, and determines the maximum expressible number of unique values per dimension in the resulting quantized coordinates; typically, a power of ten is chosen such as 1e4, 1e5 or 1e6. If the *topology* does not already have a [bbox](#bbox), one is computed and assigned. If the *topology* is already quantized, an error is thrown. See also [topoquantize](#topoquantize).
+If a quantization number *n* is specified instead of a *transform* object, the corresponding transform object is first computed using the bounding box of the topology. In this case, the quantization number *n* must be a positive integer greater than one which determines the maximum number of expressible values per dimension in the resulting quantized coordinates; typically, a power of ten is chosen such as 1e4, 1e5 or 1e6. If the *topology* does not already have a *topology*.bbox, one is computed using [topojson.bbox](#bbox).
 
-**CAUTION:** The input *topology* is modified **in-place**.
+<a name="transform" href="#transform">#</a> topojson.<b>transform</b>(<i>transform</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/transform.js "Source")
+
+If the specified [*transform* object](https://github.com/topojson/topojson-specification/blob/master/README.md#212-transforms) is non-null, returns a [point *transform* function](#_transform) to remove delta-encoding and apply the transform. If the *transform* is null, returns the identity function.
+
+<a name="untransform" href="#untransform">#</a> topojson.<b>untransform</b>(<i>transform</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/untransform.js "Source")
+
+If the specified [*transform* object](https://github.com/topojson/topojson-specification/blob/master/README.md#212-transforms) is non-null, returns a [point *transform* function](#_transform) to apply quantized delta-encoding and remove the transform. If the *transform* is null, returns the identity function. See also [topojson.quantize](#quantize).
 
 <a name="_transform" href="#_transform">#</a> <i>transform</i>(<i>point</i>[, <i>index</i>])
 
-Transforms the specified *point* **in-place**, modifying the *point*’s coordinates. If the specified *index* is truthy, the input *point* is treated as relative to the previous point passed to the transform, as is the case with delta-encoded arcs. Returns the specified *point*.
-
-<a name="transform" href="#transform">#</a> topojson.<b>transform</b>(<i>topology</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/transform.js "Source")
-
-If the specified *topology*’s [transform object](https://github.com/topojson/topojson-specification/blob/master/README.md#212-transforms) is non-null, returns a [point *transform* function](#_transform) to remove delta-encoding and apply the transform. If the *topology*’s transform object is null, returns the identity function.
-
-**CAUTION:** The input *topology* is modified **in-place**.
-
-<a name="untransform" href="#untransform">#</a> topojson.<b>untransform</b>(<i>topology</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/untransform.js "Source")
-
-If the specified *topology*’s [transform object](https://github.com/topojson/topojson-specification/blob/master/README.md#212-transforms) is non-null, returns a [point *transform* function](#_transform) to apply delta-encoding and remove the transform. If the *topology*’s transform object is null, returns the identity function.
-
-**CAUTION:** The input *topology* is modified **in-place**.
+Applies this transform function to the specified *point*, returning a new point with the transformed coordinates. If the specified *index* is truthy, the input *point* is treated as relative to the previous point passed to this transform, as is the case with delta-encoded arcs.
 
 ## Command Line Reference
 
