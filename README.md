@@ -84,6 +84,14 @@ See this [county choropleth](https://bl.ocks.org/mbostock/4060606) for example. 
 
 Equivalent to [topojson.mesh](#mesh), but returns TopoJSON rather than GeoJSON. The returned geometry is a shallow copy of the source *object*: they may share coordinates.
 
+<a name="meshes" href="#meshes">#</a> topojson.<b>meshes</b>(<i>topology</i>[, <i>object</i>[, <i>tag</i>]]) [<>](https://github.com/topojson/topojson-client/blob/master/src/mesh.js "Source")
+
+Equivalent to [topojson.mesh](#mesh), but returns a collection of the meshed geometries, partitioned according to the *tag* function. Each feature has a `tag` property. Can be used to create a FeatureCollection of [all borders between neighbouring countries](https://bl.ocks.org/Fil/9ff0ca1825369075394d0e77e149052c).
+
+<a name="meshesArcs" href="#meshesArcs">#</a> topojson.<b>meshesArcs</b>(<i>topology</i>[, <i>object</i>[, <i>tag</i>]]) [<>](https://github.com/topojson/topojson-client/blob/master/src/mesh.js "Source")
+
+Equivalent to [topojson.meshes](#meshes), but returns TopoJSON rather than GeoJSON.
+
 <a name="neighbors" href="#neighbors">#</a> topojson.<b>neighbors</b>(<i>objects</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/neighbors.js "Source")
 
 Returns an array representing the set of neighboring objects for each object in the specified *objects* array. The returned array has the same number of elements as the input array; each element *i* in the returned array is the array of indexes for neighbors of object *i* in the input array. For example, if the specified objects array contains the features *foo* and *bar*, and these features are neighbors, the returned array will be \[\[1\], \[0\]\], indicating that *foo* is a neighbor of *bar* and *vice versa*. Each array of neighbor indexes for each object is guaranteed to be sorted in ascending order.
