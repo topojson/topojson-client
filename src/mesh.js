@@ -1,19 +1,42 @@
-import {object} from "./feature";
+import {default as collection, object} from "./feature";
 import stitch from "./stitch";
 
 export default function(topology) {
   return object(topology, meshArcs.apply(this, arguments));
 }
 
-export function meshArcs(topology, object, filter) {
-  var arcs, i, n;
-  if (arguments.length > 1) arcs = extractArcs(topology, object, filter);
-  else for (i = 0, arcs = new Array(n = topology.arcs.length); i < n; ++i) arcs[i] = i;
-  return {type: "MultiLineString", arcs: stitch(topology, arcs)};
+export function meshes(topology) {
+  return collection(topology, {
+    type: "GeometryCollection",
+    geometries: meshesArcs.apply(this, arguments)
+  });
 }
 
-function extractArcs(topology, object, filter) {
-  var arcs = [],
+export function meshArcs(topology, object, filter) {
+  var p, partition = meshesArcs(topology, object, !filter ? null : function() {
+    return !!filter.apply(this, arguments);
+  });
+  return partition.length ? (p = partition[0], delete p.properties, p) : { type: 'MultiLineString', arcs: [] };
+}
+
+export function meshesArcs(topology, object, tag) {
+  var partition, arcs, tags, i, n;
+
+  if (arguments.length > 1) partition = extractArcs(topology, object, tag), tags = partition[1], partition = partition[0];
+  else for (i = 0, arcs = new Array(n = topology.arcs.length); i < n; ++i) arcs[i] = i, partition = [arcs], tags = [true];
+  
+  return partition.map(function(arcs, i) {
+    return {
+      type: "MultiLineString",
+      properties: { tag: tags[i] },
+      arcs: stitch(topology, arcs)
+    } 
+  });
+}
+
+function extractArcs(topology, object, tag) {
+  var tags = [],
+      arcs = [],
       geomsByArc = [],
       geom;
 
@@ -33,6 +56,13 @@ function extractArcs(topology, object, filter) {
   function extract3(arcs) {
     arcs.forEach(extract2);
   }
+  
+  function tagpush(i, tag) {
+    if (!tag) return;
+    var t = tags.indexOf(tag);
+    if (t === -1) tags.push(tag), t = arcs.length, arcs.push([]);
+    arcs[t].push(i);
+  }
 
   function geometry(o) {
     switch (geom = o, o.type) {
@@ -45,9 +75,9 @@ function extractArcs(topology, object, filter) {
 
   geometry(object);
 
-  geomsByArc.forEach(filter == null
-      ? function(geoms) { arcs.push(geoms[0].i); }
-      : function(geoms) { if (filter(geoms[0].g, geoms[geoms.length - 1].g)) arcs.push(geoms[0].i); });
+  geomsByArc.forEach(function(geoms) {
+    tagpush(geoms[0].i, tag ? tag(geoms[0].g, geoms[geoms.length - 1].g) : true);
+  });
 
-  return arcs;
+  return [arcs, tags];
 }
