@@ -64,3 +64,20 @@ tape("mesh does not stitch together two disconnected line strings", function(tes
   });
   test.end();
 });
+
+
+tape("meshesArcs return an array of meshArcs", function(test) {
+  var meshes = topojson.meshesArcs(disjointTopology, disjointTopology.objects.collection, function(a, b) { return a; });
+  test.assert(meshes.length, 2);
+  test.equal(meshes[0].type, 'MultiLineString');
+  test.assert(meshes[0].properties && !!meshes[0].properties.tag, true);
+  test.end();
+});
+
+tape("meshes does partition", function(test) {
+  var meshes = topojson.meshes(disjointTopology, disjointTopology.objects.collection, function(a, b) { return a; });
+  test.equal(meshes.type, 'FeatureCollection');
+  test.equal(meshes.features.length, 2);
+  test.assert(meshes.features && meshes.features[0] && meshes.features[0].properties && !!meshes.features[0].properties.tag, true);
+  test.end();
+});
