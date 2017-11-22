@@ -123,7 +123,7 @@ Applies this transform function to the specified *point*, returning a new point 
 Converts one or more TopoJSON objects from an input topology to one or more GeoJSON features. For example, to convert the “states” TopoJSON GeometryCollection object in us.json to a GeoJSON feature collection in us-states.json:
 
 ```
-topo2geo states=us-states.json < us.json
+topo2geo states=us.geojson counties=us.geojson < input.topojson
 ```
 
 For convenience, you can omit the object name and specify only the file *name*; the object name will be the basename of the file, with the directory and extension removed. For example, to convert the “states” TopoJSON GeometryCollection object in us.json to a GeoJSON feature collection in states.json:
