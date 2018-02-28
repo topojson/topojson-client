@@ -26,8 +26,8 @@ tape("topojson.feature LineString is a valid geometry type", function(test) {
 });
 
 tape("topojson.feature MultiLineString is a valid geometry type", function(test) {
-  var t = simpleTopology({type: "LineString", arcs: [0]});
-  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", properties: {}, geometry: {type: "LineString", coordinates: [[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]}});
+  var t = simpleTopology({type: "MultiLineString", arcs: [[0]]});
+  test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", properties: {}, geometry: {type: "MultiLineString", coordinates: [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]]}});
   test.end();
 });
 
