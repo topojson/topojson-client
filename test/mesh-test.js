@@ -63,3 +63,33 @@ tape("mesh does not stitch together two disconnected line strings", function(tes
   });
   test.end();
 });
+
+tape("mesh allows to filter by arc's index", function(test) {
+  var topology = {
+    "type": "Topology",
+    "objects": {
+      "collection": {
+        "type": "GeometryCollection",
+        "geometries": [
+          {"type": "LineString", "arcs": [0]},
+          {"type": "LineString", "arcs": [1]}
+        ]
+      }
+    },
+    "arcs":[
+      [[2, 0], [3, 0]],
+      [[0, 0], [1, 0]]
+    ]
+  };
+  test.inDelta(topojson.mesh(topology, topology.objects.collection, function(objA, objB, arcA, arcB) {
+    if (arcA === 0) {
+      return false;
+    } {
+      return true;
+    }
+  }), {
+    type: "MultiLineString",
+    coordinates: [[[0, 0], [1, 0]]]
+  });
+  test.end();
+});

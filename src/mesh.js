@@ -47,7 +47,7 @@ function extractArcs(topology, object, filter) {
 
   geomsByArc.forEach(filter == null
       ? function(geoms) { arcs.push(geoms[0].i); }
-      : function(geoms) { if (filter(geoms[0].g, geoms[geoms.length - 1].g)) arcs.push(geoms[0].i); });
+      : function(geoms) { if (filter(geoms[0].g, geoms[geoms.length - 1].g, geoms[0].i, geoms[geoms.length - 1].i)) arcs.push(geoms[0].i); });
 
   return arcs;
 }
