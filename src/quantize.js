@@ -1,5 +1,5 @@
-import bbox from "./bbox";
-import untransform from "./untransform";
+import bbox from "./bbox.js";
+import untransform from "./untransform.js";
 
 export default function(topology, transform) {
   if (topology.transform) throw new Error("already quantized");

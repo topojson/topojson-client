@@ -1,4 +1,4 @@
-import bisect from "./bisect";
+import bisect from "./bisect.js";
 
 export default function(objects) {
   var indexesByArc = {}, // arc index -> array of object indexes

@@ -1,4 +1,4 @@
-import identity from "./identity";
+import identity from "./identity.js";
 
 export default function(transform) {
   if (transform == null) return identity;

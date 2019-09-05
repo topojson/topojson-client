@@ -1,5 +1,5 @@
-import {object} from "./feature";
-import stitch from "./stitch";
+import {object} from "./feature.js";
+import stitch from "./stitch.js";
 
 function planarRingArea(ring) {
   var i = -1, n = ring.length, a, b = ring[n - 1], area = 0;

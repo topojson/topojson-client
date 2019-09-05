@@ -1,5 +1,5 @@
-import {object} from "./feature";
-import stitch from "./stitch";
+import {object} from "./feature.js";
+import stitch from "./stitch.js";
 
 export default function(topology) {
   return object(topology, meshArcs.apply(this, arguments));

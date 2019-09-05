@@ -1,5 +1,5 @@
-import reverse from "./reverse";
-import transform from "./transform";
+import reverse from "./reverse.js";
+import transform from "./transform.js";
 
 export default function(topology, o) {
   return o.type === "GeometryCollection"

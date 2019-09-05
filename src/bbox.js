@@ -1,4 +1,4 @@
-import transform from "./transform";
+import transform from "./transform.js";
 
 export default function(topology) {
   var t = transform(topology.transform), key,
