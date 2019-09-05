@@ -8,7 +8,7 @@
     "geojson"
   ],
   "homepage": "https://github.com/topojson/topojson-client",
-  "license": "BSD-3-Clause",
+  "license": "ISC",
   "author": {
     "name": "Mike Bostock",
     "url": "https://bost.ocks.org/mike"
