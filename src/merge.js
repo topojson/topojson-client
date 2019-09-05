@@ -96,6 +96,8 @@ export function mergeArcs(topology, objects) {
       }
 
       return arcs;
+    }).filter(function(arcs) {
+      return arcs.length > 0;
     })
   };
 }

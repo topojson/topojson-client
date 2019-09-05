@@ -34,7 +34,7 @@ tape("topojson.feature MultiLineString is a valid geometry type", function(test)
 tape("topojson.feature line-strings have at least two coordinates", function(test) {
   var t = simpleTopology({type: "LineString", arcs: [3]});
   test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", properties: {}, geometry: {type: "LineString", coordinates: [[1, 1], [1, 1]]}});
-  var t = simpleTopology({type: "MultiLineString", arcs: [[3], [4]]});
+  t = simpleTopology({type: "MultiLineString", arcs: [[3], [4]]});
   test.deepEqual(topojson.feature(t, t.objects.foo), {type: "Feature", properties: {}, geometry: {type: "MultiLineString", coordinates: [[[1, 1], [1, 1]], [[0, 0], [0, 0]]]}});
   test.end();
 });
@@ -126,7 +126,7 @@ tape("topojson.feature negative arc indexes indicate reversed coordinates", func
 tape("topojson.feature when multiple arc indexes are specified, coordinates are stitched together", function(test) {
   var t = simpleTopology({type: "LineString", arcs: [1, 2]});
   test.deepEqual(topojson.feature(t, t.objects.foo).geometry.coordinates, [[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]);
-  var t = simpleTopology({type: "Polygon", arcs: [[~2, ~1]]});
+  t = simpleTopology({type: "Polygon", arcs: [[~2, ~1]]});
   test.deepEqual(topojson.feature(t, t.objects.foo).geometry.coordinates, [[[0, 0], [0, 1], [1, 1], [1, 0], [0, 0]]]);
   test.end();
 });

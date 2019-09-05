@@ -1,6 +1,6 @@
 var tape = require("tape");
 
-tape.Test.prototype.inDelta = function(actual, expected, delta, message) {
+tape.Test.prototype.inDelta = function(actual, expected, delta) {
   if (arguments.length < 3) delta = 1e-6;
   this._assert(inDelta(actual, expected, delta), {
     message: "should be in delta",
@@ -18,13 +18,13 @@ function inDelta(actual, expected, delta) {
 }
 
 function inDeltaObject(actual, expected, delta) {
-  for (var key in expected) {
-    if (!(key in actual) || !inDelta(actual[key], expected[key], delta)) {
+  for (var e in expected) {
+    if (!(e in actual) || !inDelta(actual[e], expected[e], delta)) {
       return false;
     }
   }
-  for (var key in actual) {
-    if (!(key in expected)) {
+  for (var a in actual) {
+    if (!(a in expected)) {
       return false;
     }
   }
