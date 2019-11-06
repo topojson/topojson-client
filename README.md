@@ -31,7 +31,7 @@ If you use NPM, `npm install topojson-client`. Otherwise, download the [latest r
 <script src="https://unpkg.com/topojson-client@3"></script>
 <script>
 
-var feature = topojson.feature(topology, topology.objects.foo);
+var feature = topojson.feature(topology, "foo");
 
 </script>
 ```
@@ -48,7 +48,7 @@ import * as topojson from "topojson-client";
 
 <a name="feature" href="#feature">#</a> topojson.<b>feature</b>(<i>topology</i>, <i>object</i>) [<>](https://github.com/topojson/topojson-client/blob/master/src/feature.js "Source")
 
-Returns the GeoJSON Feature or FeatureCollection for the specified *object* in the given *topology*. If the specified object is a GeometryCollection, a FeatureCollection is returned, and each geometry in the collection is mapped to a Feature. Otherwise, a Feature is returned. The returned feature is a shallow copy of the source *object*: they may share identifiers, bounding boxes, properties and coordinates.
+Returns the GeoJSON Feature or FeatureCollection for the specified *object* in the given *topology*. If the specified object is a string, it is treated as *topology*.objects[*object*]. Then, if the object is a GeometryCollection, a FeatureCollection is returned, and each geometry in the collection is mapped to a Feature. Otherwise, a Feature is returned. The returned feature is a shallow copy of the source *object*: they may share identifiers, bounding boxes, properties and coordinates.
 
 Some examples:
 

@@ -2,12 +2,13 @@ import reverse from "./reverse.js";
 import transform from "./transform.js";
 
 export default function(topology, o) {
+  if (typeof o === "string") o = topology.objects[o];
   return o.type === "GeometryCollection"
       ? {type: "FeatureCollection", features: o.geometries.map(function(o) { return feature(topology, o); })}
       : feature(topology, o);
 }
 
-export function feature(topology, o) {
+function feature(topology, o) {
   var id = o.id,
       bbox = o.bbox,
       properties = o.properties == null ? {} : o.properties,
