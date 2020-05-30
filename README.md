@@ -132,7 +132,7 @@ For convenience, you can omit the object name and specify only the file *name*; 
 topo2geo states.json < us.json
 ```
 
-See also [geo2topo](https://github.com/topojson/topojson/blob/master/README.md#geo2topo).
+See also [geo2topo](https://github.com/topojson/topojson-server/blob/master/README.md#geo2topo).
 
 To list the available object names, use [--list](#topo2geo_list).
 
