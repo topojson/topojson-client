@@ -1,5 +1,5 @@
 export default function(topology, arcs) {
-  var stitchedArcs = {},
+  var stitchedArcs = new Set,
       fragmentByStart = {},
       fragmentByEnd = {},
       fragments = [],
@@ -60,14 +60,14 @@ export default function(topology, arcs) {
       delete fragmentByStart[f.start];
       delete f.start;
       delete f.end;
-      f.forEach(function(i) { stitchedArcs[i < 0 ? ~i : i] = 1; });
+      f.forEach(function(i) { stitchedArcs.add(i < 0 ? ~i : i); });
       fragments.push(f);
     }
   }
 
   flush(fragmentByEnd, fragmentByStart);
   flush(fragmentByStart, fragmentByEnd);
-  arcs.forEach(function(i) { if (!stitchedArcs[i < 0 ? ~i : i]) fragments.push([i]); });
+  arcs.forEach(function(i) { if (!stitchedArcs.has(i < 0 ? ~i : i)) fragments.push([i]); });
 
   return fragments;
 }
