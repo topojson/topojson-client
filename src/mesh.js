@@ -6,6 +6,7 @@ export default function(topology) {
 }
 
 export function meshArcs(topology, object, filter) {
+  if (typeof object === "string") object = topology.objects[object];
   var arcs, i, n;
   if (arguments.length > 1) arcs = extractArcs(topology, object, filter);
   else for (i = 0, arcs = new Array(n = topology.arcs.length); i < n; ++i) arcs[i] = i;
