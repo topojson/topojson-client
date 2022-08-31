@@ -7,12 +7,12 @@ export default function(topology) {
 
 export function meshArcs(topology, object, filter) {
   var arcs, i, n;
-  if (arguments.length > 1) arcs = extractArcs(topology, object, filter);
+  if (arguments.length > 1) arcs = extractArcs(object, filter);
   else for (i = 0, arcs = new Array(n = topology.arcs.length); i < n; ++i) arcs[i] = i;
   return {type: "MultiLineString", arcs: stitch(topology, arcs)};
 }
 
-function extractArcs(topology, object, filter) {
+function extractArcs(object, filter) {
   var arcs = [],
       geomsByArc = [],
       geom;
